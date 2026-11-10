@@ -9,7 +9,7 @@ import javax.crypto.SecretKey;
 import org.springframework.stereotype.Service;
 
 import com.insurancecard.config.AppProperties;
-import com.insurancecard.domain.User;
+import com.insurancecard.model.entity.User;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;

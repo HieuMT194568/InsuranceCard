@@ -54,9 +54,11 @@ export function AuthProvider({ children }) {
 
   const value = useMemo(() => ({
     user,
-    isStaff: user?.role === 'STAFF',
+    // ADMIN kế thừa mọi quyền của STAFF và dùng chung cổng /staff
+    isStaff: isStaffRole(user?.role),
+    isAdmin: user?.role === 'ADMIN',
     isCustomer: user?.role === 'CUSTOMER',
-    basePath: user?.role === 'STAFF' ? '/staff' : '/customer',
+    basePath: basePathOf(user?.role),
     login,
     logout,
     saveSession,
@@ -64,6 +66,16 @@ export function AuthProvider({ children }) {
   }), [user, login, logout, saveSession, updateUser]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}
+
+/** STAFF và ADMIN đều là người dùng nội bộ. */
+export function isStaffRole(role) {
+  return role === 'STAFF' || role === 'ADMIN';
+}
+
+/** Trang gốc theo vai trò: /staff cho nhân viên + quản trị viên, /customer cho khách hàng. */
+export function basePathOf(role) {
+  return isStaffRole(role) ? '/staff' : '/customer';
 }
 
 export function useAuth() {

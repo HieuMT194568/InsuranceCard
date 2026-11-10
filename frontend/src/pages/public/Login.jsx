@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { authApi } from '../../api/services';
-import { useAuth } from '../../context/AuthContext';
+import { basePathOf, useAuth } from '../../context/AuthContext';
 import { Field, PasswordField } from '../../components/form';
 import { SubmitButton } from '../../components/ui';
 import { loginSchema } from '../../utils/validation';
@@ -31,9 +31,9 @@ export default function Login() {
     setResendMsg(null);
     try {
       const user = await login(email, password);
-      const home = user.role === 'STAFF' ? '/staff/dashboard' : '/customer/dashboard';
+      const prefix = basePathOf(user.role);
+      const home = `${prefix}/dashboard`;
       const from = location.state?.from;
-      const prefix = user.role === 'STAFF' ? '/staff' : '/customer';
       navigate(from && from.startsWith(prefix) ? from : home, { replace: true });
     } catch (e) {
       setErrorCode(e?.response?.data?.code);

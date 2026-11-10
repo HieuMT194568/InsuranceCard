@@ -529,6 +529,15 @@ async function main() {
   const cl1 = expect('TC-B07', 'Yêu cầu bồi thường cho tai nạn đã khai báo', r, 201);
   r = await api('POST', '/compensations', { accidentId: a1.id, requestedAmount: 1000000, description: 'Gửi trùng yêu cầu bồi thường cho cùng tai nạn.' }, tCus);
   expect('TC-B08', 'Gửi trùng yêu cầu cho cùng tai nạn', r, 409);
+  r = await api('PUT', `/compensations/${cl1.id}`, { requestedAmount: 7000000, description: 'Cập nhật số tiền theo báo giá mới của garage.' }, tCus);
+  expect('TC-B24', 'Sửa yêu cầu: số tiền > thiệt hại ước tính', r, 422, ['requestedAmount']);
+  r = await api('PUT', `/compensations/${cl1.id}`, { requestedAmount: 5000, description: 'ngắn' }, tCus);
+  expect('TC-B25', 'Sửa yêu cầu: số tiền < 10.000 và nội dung quá ngắn', r, 400, ['requestedAmount', 'description']);
+  r = await api('PUT', `/compensations/${cl1.id}`, { requestedAmount: 4500000, description: 'Khách khác sửa yêu cầu bồi thường không thuộc mình.' }, cust);
+  expect('TC-B26', 'Sửa yêu cầu bồi thường của người khác', r, 404);
+  r = await api('PUT', `/compensations/${cl1.id}`, { requestedAmount: 4500000, description: 'Đề nghị bồi thường thay yếm và đèn pha theo báo giá garage.' }, tCus);
+  const cl1u = expect('TC-B27', 'Sửa yêu cầu đang chờ duyệt', r, 200);
+  check('TC-B27b', 'Nội dung được cập nhật', cl1u?.description === 'Đề nghị bồi thường thay yếm và đèn pha theo báo giá garage.', cl1u);
   r = await api('POST', `/contracts/${k2.id}/cancel`, { reason: 'Muốn huỷ khi đang chờ bồi thường' }, tCus);
   expect('TC-K34', 'Huỷ hợp đồng khi đang có yêu cầu bồi thường chờ xử lý', r, 422);
   r = await api('DELETE', `/accidents/${a1.id}`, undefined, tCus);
@@ -553,6 +562,10 @@ async function main() {
   check('TC-B13b', 'Trạng thái APPROVED, số tiền duyệt 4.000.000', cl1a?.status === 'APPROVED' && Number(cl1a?.approvedAmount) === 4000000, cl1a);
   r = await api('POST', `/compensations/${cl1.id}/reject`, { note: 'Từ chối sau khi đã duyệt' }, staff);
   expect('TC-B14', 'Từ chối yêu cầu đã duyệt', r, 422);
+  r = await api('PUT', `/compensations/${cl1.id}`, { requestedAmount: 4000000, description: 'Sửa yêu cầu bồi thường sau khi đã được duyệt.' }, tCus);
+  expect('TC-B28', 'Sửa yêu cầu đã duyệt', r, 422);
+  r = await api('DELETE', `/compensations/${cl1.id}`, undefined, tCus);
+  expect('TC-B29', 'Rút yêu cầu đã duyệt', r, 422);
   r = await api('POST', `/compensations/${cl1.id}/payout`, { method: 'CARD' }, staff);
   expect('TC-B15', 'Chi trả qua thẻ (không hỗ trợ)', r, 400, ['method']);
   r = await api('POST', `/compensations/${cl1.id}/payout`, { method: 'BANK_TRANSFER' }, staff);
@@ -575,6 +588,17 @@ async function main() {
   expect('TC-B22', 'Yêu cầu bồi thường cho tai nạn đã bị bác bỏ', r, 422, ['accidentId']);
   r = await api('GET', `/compensations/${cl1.id}`, undefined, cust);
   expect('TC-B23', 'Khách xem yêu cầu bồi thường của người khác', r, 404);
+
+  r = await api('POST', '/compensations', { accident: { ...acc, accidentTime: dateTime(0, 0, 20), estimatedDamage: 1500000 }, requestedAmount: 1500000, description: 'Yêu cầu bồi thường sẽ được khách rút lại sau đó.' }, tCus);
+  const cl3 = r.data;
+  r = await api('DELETE', `/compensations/${cl3.id}`, undefined, cust);
+  expect('TC-B30', 'Rút yêu cầu bồi thường của người khác', r, 404);
+  r = await api('DELETE', `/compensations/${cl3.id}`, undefined, tCus);
+  expect('TC-B31', 'Khách rút yêu cầu đang chờ duyệt', r, 204);
+  r = await api('GET', `/compensations/${cl3.id}`, undefined, tCus);
+  expect('TC-B31b', 'Yêu cầu đã rút không còn tồn tại', r, 404);
+  r = await api('DELETE', `/accidents/${cl3.accidentId}`, undefined, tCus);
+  expect('TC-B31c', 'Rút yêu cầu xong thì xoá được tai nạn', r, 204);
 
   const a3 = (await api('POST', '/accidents', { ...acc, accidentTime: dateTime(0, 0, 15) }, tCus)).data;
   r = await api('DELETE', `/accidents/${a3.id}`, undefined, tCus);
@@ -633,20 +657,39 @@ async function main() {
   check('TC-M03', 'Lọc theo loại giao dịch', r.status === 200 && r.data.content.every((p) => p.type === 'REFUND'), r.data);
   r = await api('GET', `/payments?customerId=${seedCustomerId}`, undefined, tCus);
   check('TC-M04', 'Khách không xem được giao dịch người khác (bỏ qua customerId)', r.data.content.every((p) => p.customerId === tCusId), r.data);
+  r = await api('GET', `/payments/${pays[0]?.id}`, undefined, tCus);
+  const pay1 = expect('TC-M05', 'Xem chi tiết giao dịch của mình', r, 200);
+  check('TC-M05b', 'Đúng giao dịch được yêu cầu', pay1?.id === pays[0]?.id && pay1?.customerId === tCusId, pay1);
+  r = await api('GET', `/payments/${pays[0]?.id}`, undefined, cust);
+  expect('TC-M06', 'Xem chi tiết giao dịch của người khác', r, 404);
+  r = await api('GET', '/payments/999999999', undefined, staff);
+  expect('TC-M07', 'Giao dịch không tồn tại', r, 404);
 
   // ================================================================ SETTINGS & DASHBOARD
   section('11. Cấu hình & Dashboard');
-  r = await api('PUT', '/settings/RENEWAL_WINDOW_DAYS', { value: 500 }, staff);
+  // SRS v2: cấu hình hệ thống chỉ dành cho ADMIN (nhân viên thường => 403)
+  const admin = await login('admin@insurancecard.vn', 'Admin@123');
+  check('TC-S00', 'Quản trị viên mặc định đăng nhập được', !!admin);
+  r = await api('GET', '/settings', undefined, staff);
+  expect('TC-S09', 'Nhân viên (không phải ADMIN) xem cấu hình', r, 403);
+  r = await api('PUT', '/settings/RENEWAL_WINDOW_DAYS', { value: 500 }, admin);
   expect('TC-S01', 'Cấu hình vượt khoảng cho phép', r, 400, ['value']);
-  r = await api('PUT', '/settings/KHONG_TON_TAI', { value: 5 }, staff);
+  r = await api('PUT', '/settings/KHONG_TON_TAI', { value: 5 }, admin);
   expect('TC-S02', 'Cấu hình không tồn tại', r, 404);
   r = await api('PUT', '/settings/RENEWAL_WINDOW_DAYS', { value: 30 }, cust);
   expect('TC-S03', 'Khách hàng sửa cấu hình', r, 403);
-  r = await api('PUT', '/settings/MAX_START_DATE_ADVANCE_DAYS', { value: 90 }, staff);
+  r = await api('GET', '/settings/RENEWAL_WINDOW_DAYS', undefined, admin);
+  const st1 = expect('TC-S06', 'Xem một cấu hình', r, 200);
+  check('TC-S06b', 'Trả đúng khoá và khoảng giá trị', st1?.key === 'RENEWAL_WINDOW_DAYS' && typeof st1?.minValue === 'number', st1);
+  r = await api('GET', '/settings/KHONG_TON_TAI', undefined, admin);
+  expect('TC-S07', 'Xem cấu hình không tồn tại', r, 404);
+  r = await api('GET', '/settings/RENEWAL_WINDOW_DAYS', undefined, cust);
+  expect('TC-S08', 'Khách hàng xem cấu hình', r, 403);
+  r = await api('PUT', '/settings/MAX_START_DATE_ADVANCE_DAYS', { value: 90 }, admin);
   expect('TC-S04', 'Sửa cấu hình hợp lệ', r, 200);
   r = await api('POST', '/contracts', { customerId: tCusId, vehicleId: veh50.id, productId: pCombo.id, startDate: day(80), termYears: 1 }, staff);
   expect('TC-S05', 'Cấu hình mới có hiệu lực ngay (ngày bắt đầu +80 ngày hợp lệ)', r, 201);
-  await api('PUT', '/settings/MAX_START_DATE_ADVANCE_DAYS', { value: 60 }, staff);
+  await api('PUT', '/settings/MAX_START_DATE_ADVANCE_DAYS', { value: 60 }, admin);
 
   r = await api('GET', '/dashboard/customer', undefined, cust);
   check('TC-D01', 'Dashboard khách hàng', r.status === 200 && typeof r.data.activeContracts === 'number', r.data);

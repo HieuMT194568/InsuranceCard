@@ -1,9 +1,9 @@
-package com.insurancecard.domain;
+package com.insurancecard.model.entity;
 
 import java.time.LocalDateTime;
 
-import com.insurancecard.domain.enums.Role;
-import com.insurancecard.domain.enums.UserStatus;
+import com.insurancecard.model.enums.Role;
+import com.insurancecard.model.enums.UserStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

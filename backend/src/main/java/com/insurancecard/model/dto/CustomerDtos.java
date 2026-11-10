@@ -1,10 +1,10 @@
-package com.insurancecard.dto;
+package com.insurancecard.model.dto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import com.insurancecard.domain.enums.Gender;
-import com.insurancecard.domain.enums.UserStatus;
+import com.insurancecard.model.enums.Gender;
+import com.insurancecard.model.enums.UserStatus;
 import com.insurancecard.validation.AgeBetween;
 import com.insurancecard.validation.RawString;
 import com.insurancecard.validation.ValidationRules;

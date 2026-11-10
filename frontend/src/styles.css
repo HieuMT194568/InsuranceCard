@@ -102,3 +102,8 @@ body {
   transform: translateY(-3px);
   transition: transform 0.15s ease;
 }
+
+/* M03 – chuông thông báo: ẩn mũi tên dropdown */
+.no-caret::after {
+  display: none !important;
+}

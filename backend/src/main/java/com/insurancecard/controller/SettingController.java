@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.insurancecard.dto.SettingDtos.SettingResponse;
-import com.insurancecard.dto.SettingDtos.SettingUpdateRequest;
+import com.insurancecard.model.dto.SettingDtos.SettingResponse;
+import com.insurancecard.model.dto.SettingDtos.SettingUpdateRequest;
 import com.insurancecard.service.SettingService;
 
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/settings")
-@PreAuthorize("hasRole('STAFF')")
+@PreAuthorize("hasRole('ADMIN')")
 public class SettingController {
 
     private final SettingService settingService;
@@ -30,6 +30,11 @@ public class SettingController {
     @GetMapping
     public List<SettingResponse> list() {
         return settingService.list();
+    }
+
+    @GetMapping("/{key}")
+    public SettingResponse get(@PathVariable String key) {
+        return settingService.get(key);
     }
 
     @PutMapping("/{key}")

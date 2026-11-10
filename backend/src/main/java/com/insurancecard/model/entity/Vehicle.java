@@ -1,4 +1,4 @@
-package com.insurancecard.domain;
+package com.insurancecard.model.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

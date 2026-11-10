@@ -12,9 +12,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.insurancecard.domain.Payment;
-import com.insurancecard.domain.enums.PaymentStatus;
-import com.insurancecard.domain.enums.PaymentType;
+import com.insurancecard.model.entity.Payment;
+import com.insurancecard.model.enums.PaymentStatus;
+import com.insurancecard.model.enums.PaymentType;
 
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
@@ -44,7 +44,7 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
     @Query("""
             SELECT COALESCE(SUM(p.amount), 0) FROM Payment p
-            WHERE p.type = :type AND p.status = com.insurancecard.domain.enums.PaymentStatus.PAID
+            WHERE p.type = :type AND p.status = com.insurancecard.model.enums.PaymentStatus.PAID
               AND p.paidAt >= :from AND p.paidAt < :to
             """)
     BigDecimal sumPaid(@Param("type") PaymentType type,

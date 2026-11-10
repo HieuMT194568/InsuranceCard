@@ -55,13 +55,13 @@ export function endDateOf(start, years) {
   return `${dt.getFullYear()}-${pad(dt.getMonth() + 1)}-${pad(dt.getDate())}`;
 }
 
-// ------------------------------------------------------------------ builder
-const required = (msg) => z.string({ required_error: msg, invalid_type_error: msg }).trim().min(1, msg);
+// ------------------------------------------------------------------ builder (export để schema của từng module ở utils/validation/<module>.js dùng lại)
+export const required = (msg) => z.string({ required_error: msg, invalid_type_error: msg }).trim().min(1, msg);
 
-const text = (label, min, max, msg = `${label} từ ${min} đến ${max} ký tự`) =>
+export const text = (label, min, max, msg = `${label} từ ${min} đến ${max} ký tự`) =>
   required(`Vui lòng nhập ${label.toLowerCase()}`).pipe(z.string().min(min, msg).max(max, msg));
 
-const optionalText = (max, msg) =>
+export const optionalText = (max, msg) =>
   z.string().trim().max(max, msg).optional().transform((v) => (v ? v : null));
 
 /** Ô nhập số nguyên (giá trị form là chuỗi) -> number. */
@@ -77,7 +77,7 @@ const money = (requiredMsg, min, max, rangeMsg) =>
 /** Select id (chuỗi) -> number. */
 const idField = (msg) => required(msg).transform(Number);
 
-const enumField = (values, msg) => z.enum(values, { errorMap: () => ({ message: msg }) });
+export const enumField = (values, msg) => z.enum(values, { errorMap: () => ({ message: msg }) });
 
 // ------------------------------------------------------------------ trường dùng chung
 export const f = {
@@ -247,6 +247,7 @@ export const claimExistingSchema = z.object({
   mode: z.literal('existing'), accidentId: idField('Vui lòng chọn tai nạn đã khai báo'), ...claimBase,
 });
 export const claimNewSchema = z.object({ mode: z.literal('new'), accident: accidentSchema, ...claimBase });
+export const claimUpdateSchema = z.object(claimBase);
 
 export const approveSchema = (requested) => z.object({
   approvedAmount: money('Vui lòng nhập số tiền duyệt chi', 10_000, Number(requested),

@@ -1,9 +1,9 @@
-package com.insurancecard.dto;
+package com.insurancecard.model.dto;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-import com.insurancecard.dto.ContractDtos.ContractResponse;
+import com.insurancecard.model.dto.ContractDtos.ContractResponse;
 
 public final class DashboardDtos {
 

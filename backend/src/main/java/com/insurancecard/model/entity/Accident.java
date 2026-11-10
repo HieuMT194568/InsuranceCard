@@ -1,10 +1,10 @@
-package com.insurancecard.domain;
+package com.insurancecard.model.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import com.insurancecard.domain.enums.AccidentStatus;
-import com.insurancecard.domain.enums.DamageType;
+import com.insurancecard.model.enums.AccidentStatus;
+import com.insurancecard.model.enums.DamageType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

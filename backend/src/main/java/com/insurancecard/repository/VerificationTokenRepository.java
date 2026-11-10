@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.insurancecard.domain.VerificationToken;
-import com.insurancecard.domain.enums.TokenType;
+import com.insurancecard.model.entity.VerificationToken;
+import com.insurancecard.model.enums.TokenType;
 
 public interface VerificationTokenRepository extends JpaRepository<VerificationToken, Long> {
 

@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.insurancecard.domain.Punishment;
-import com.insurancecard.domain.enums.PunishmentStatus;
+import com.insurancecard.model.entity.Punishment;
+import com.insurancecard.model.enums.PunishmentStatus;
 
 public interface PunishmentRepository extends JpaRepository<Punishment, Long> {
 

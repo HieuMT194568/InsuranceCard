@@ -12,10 +12,22 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.insurancecard.domain.Contract;
-import com.insurancecard.domain.enums.ContractStatus;
+import com.insurancecard.model.entity.Contract;
+import com.insurancecard.model.enums.ContractStatus;
 
 public interface ContractRepository extends JpaRepository<Contract, Long> {
+
+    /** M03 (nhắc hạn): HĐ đang hiệu lực, hết hạn trong [from, to], chưa có bản gia hạn còn hiệu lực. */
+    @Query("""
+            SELECT c FROM Contract c
+            WHERE c.status = com.insurancecard.model.enums.ContractStatus.ACTIVE
+              AND c.endDate BETWEEN :from AND :to
+              AND NOT EXISTS (SELECT r.id FROM Contract r
+                              WHERE r.renewedFrom = c
+                                AND r.status <> com.insurancecard.model.enums.ContractStatus.CANCELLED)
+            ORDER BY c.endDate
+            """)
+    List<Contract> findExpiringWithoutRenewal(@Param("from") LocalDate from, @Param("to") LocalDate to);
 
     boolean existsByContractNumber(String contractNumber);
 
@@ -71,7 +83,7 @@ public interface ContractRepository extends JpaRepository<Contract, Long> {
     @EntityGraph(attributePaths = {"customer", "customer.user", "vehicle", "product"})
     @Query("""
             SELECT c FROM Contract c
-            WHERE c.status = com.insurancecard.domain.enums.ContractStatus.ACTIVE
+            WHERE c.status = com.insurancecard.model.enums.ContractStatus.ACTIVE
               AND c.endDate BETWEEN :from AND :to
               AND (:customerId IS NULL OR c.customer.id = :customerId)
             ORDER BY c.endDate ASC

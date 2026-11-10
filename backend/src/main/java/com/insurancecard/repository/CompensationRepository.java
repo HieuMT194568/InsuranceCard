@@ -11,8 +11,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.insurancecard.domain.Compensation;
-import com.insurancecard.domain.enums.ClaimStatus;
+import com.insurancecard.model.entity.Compensation;
+import com.insurancecard.model.enums.ClaimStatus;
 
 public interface CompensationRepository extends JpaRepository<Compensation, Long> {
 

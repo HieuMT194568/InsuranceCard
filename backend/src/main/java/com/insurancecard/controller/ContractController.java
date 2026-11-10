@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.insurancecard.common.PageResponse;
-import com.insurancecard.domain.enums.ContractStatus;
-import com.insurancecard.dto.ContractDtos.CancelRequest;
-import com.insurancecard.dto.ContractDtos.ContractCreateRequest;
-import com.insurancecard.dto.ContractDtos.ContractDetailResponse;
-import com.insurancecard.dto.ContractDtos.ContractResponse;
-import com.insurancecard.dto.ContractDtos.ContractUpdateRequest;
-import com.insurancecard.dto.ContractDtos.PayRequest;
-import com.insurancecard.dto.ContractDtos.RenewRequest;
+import com.insurancecard.model.dto.ContractDtos.CancelRequest;
+import com.insurancecard.model.dto.ContractDtos.ContractCreateRequest;
+import com.insurancecard.model.dto.ContractDtos.ContractDetailResponse;
+import com.insurancecard.model.dto.ContractDtos.ContractResponse;
+import com.insurancecard.model.dto.ContractDtos.ContractUpdateRequest;
+import com.insurancecard.model.dto.ContractDtos.PayRequest;
+import com.insurancecard.model.dto.ContractDtos.RenewRequest;
+import com.insurancecard.model.enums.ContractStatus;
 import com.insurancecard.service.ContractService;
 
 import jakarta.validation.Valid;

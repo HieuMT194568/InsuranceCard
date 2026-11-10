@@ -1,15 +1,15 @@
-package com.insurancecard.dto;
+package com.insurancecard.model.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.insurancecard.domain.enums.ContractStatus;
-import com.insurancecard.domain.enums.PaymentMethod;
-import com.insurancecard.dto.AccidentDtos.AccidentResponse;
-import com.insurancecard.dto.CompensationDtos.CompensationResponse;
-import com.insurancecard.dto.PaymentDtos.PaymentResponse;
+import com.insurancecard.model.dto.AccidentDtos.AccidentResponse;
+import com.insurancecard.model.dto.CompensationDtos.CompensationResponse;
+import com.insurancecard.model.dto.PaymentDtos.PaymentResponse;
+import com.insurancecard.model.enums.ContractStatus;
+import com.insurancecard.model.enums.PaymentMethod;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;

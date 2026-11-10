@@ -1,9 +1,9 @@
-package com.insurancecard.domain;
+package com.insurancecard.model.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import com.insurancecard.domain.enums.ClaimStatus;
+import com.insurancecard.model.enums.ClaimStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

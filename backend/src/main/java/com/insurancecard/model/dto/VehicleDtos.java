@@ -1,4 +1,4 @@
-package com.insurancecard.dto;
+package com.insurancecard.model.dto;
 
 import java.time.LocalDateTime;
 

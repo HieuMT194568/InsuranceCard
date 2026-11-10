@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.insurancecard.common.PageResponse;
-import com.insurancecard.dto.VehicleDtos.VehicleRequest;
-import com.insurancecard.dto.VehicleDtos.VehicleResponse;
+import com.insurancecard.model.dto.VehicleDtos.VehicleRequest;
+import com.insurancecard.model.dto.VehicleDtos.VehicleResponse;
 import com.insurancecard.service.VehicleService;
 
 import jakarta.validation.Valid;

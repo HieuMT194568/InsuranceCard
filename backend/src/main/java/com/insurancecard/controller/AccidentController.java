@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.insurancecard.common.PageResponse;
-import com.insurancecard.domain.enums.AccidentStatus;
-import com.insurancecard.dto.AccidentDtos.AccidentRequest;
-import com.insurancecard.dto.AccidentDtos.AccidentResolveRequest;
-import com.insurancecard.dto.AccidentDtos.AccidentResponse;
+import com.insurancecard.model.dto.AccidentDtos.AccidentRequest;
+import com.insurancecard.model.dto.AccidentDtos.AccidentResolveRequest;
+import com.insurancecard.model.dto.AccidentDtos.AccidentResponse;
+import com.insurancecard.model.enums.AccidentStatus;
 import com.insurancecard.service.AccidentService;
 
 import jakarta.validation.Valid;

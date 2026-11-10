@@ -1,11 +1,11 @@
-package com.insurancecard.dto;
+package com.insurancecard.model.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import com.insurancecard.domain.enums.PunishmentStatus;
-import com.insurancecard.domain.enums.ViolationType;
+import com.insurancecard.model.enums.PunishmentStatus;
+import com.insurancecard.model.enums.ViolationType;
 
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;

@@ -1,4 +1,4 @@
-package com.insurancecard.service;
+package com.insurancecard.scheduler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -6,6 +6,8 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import com.insurancecard.service.ContractService;
 
 /** Chạy khi khởi động và mỗi giờ: chuyển hợp đồng quá hạn sang EXPIRED, huỷ hợp đồng không thanh toán. */
 @Component

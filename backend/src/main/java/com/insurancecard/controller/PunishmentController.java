@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.insurancecard.common.PageResponse;
-import com.insurancecard.domain.enums.PunishmentStatus;
-import com.insurancecard.dto.ContractDtos.PayRequest;
-import com.insurancecard.dto.PunishmentDtos.PunishmentRequest;
-import com.insurancecard.dto.PunishmentDtos.PunishmentResponse;
-import com.insurancecard.dto.PunishmentDtos.WaiveRequest;
+import com.insurancecard.model.dto.ContractDtos.PayRequest;
+import com.insurancecard.model.dto.PunishmentDtos.PunishmentRequest;
+import com.insurancecard.model.dto.PunishmentDtos.PunishmentResponse;
+import com.insurancecard.model.dto.PunishmentDtos.WaiveRequest;
+import com.insurancecard.model.enums.PunishmentStatus;
 import com.insurancecard.service.PunishmentService;
 
 import jakarta.validation.Valid;

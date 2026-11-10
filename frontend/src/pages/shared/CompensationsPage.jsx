@@ -9,9 +9,9 @@ import { useToast } from '../../context/ToastContext';
 import { usePaged } from '../../hooks/usePaged';
 import { MoneyField, TextAreaField } from '../../components/form';
 import { MethodModal, ReasonModal } from '../../components/modals';
-import { EmptyRow, InfoItem, Loading, PageHeader, Paging, SearchBox, StatusBadge, SubmitButton } from '../../components/ui';
-import { approveSchema } from '../../utils/validation';
-import { applyServerErrors } from '../../utils/errors';
+import { ConfirmModal, EmptyRow, InfoItem, Loading, PageHeader, Paging, SearchBox, StatusBadge, SubmitButton } from '../../components/ui';
+import { approveSchema, claimUpdateSchema } from '../../utils/validation';
+import { applyServerErrors, errorMessage } from '../../utils/errors';
 import { LABELS, dateTime, money } from '../../utils/format';
 
 function ApproveModal({ claim, onHide, onDone }) {
@@ -59,6 +59,45 @@ function ApproveModal({ claim, onHide, onDone }) {
   );
 }
 
+/** Sửa số tiền / nội dung yêu cầu khi còn chờ duyệt. */
+function EditModal({ claim, onHide, onDone }) {
+  const [error, setError] = useState(null);
+  const form = useForm({ resolver: zodResolver(claimUpdateSchema) });
+  useEffect(() => {
+    if (claim) { setError(null); form.reset({ requestedAmount: String(claim.requestedAmount), description: claim.description }); }
+  }, [claim]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const onSubmit = form.handleSubmit(async (values) => {
+    setError(null);
+    try {
+      onDone(await compensationApi.update(claim.id, values));
+    } catch (e) {
+      setError(applyServerErrors(e, form.setError));
+    }
+  });
+
+  if (!claim) return null;
+  return (
+    <Modal show onHide={onHide} centered backdrop="static">
+      <Form noValidate onSubmit={onSubmit}>
+        <Modal.Header closeButton><Modal.Title as="h5">Sửa yêu cầu {claim.claimCode}</Modal.Title></Modal.Header>
+        <Modal.Body>
+          {error && <Alert variant="danger">{error}</Alert>}
+          <Alert variant="light" className="py-2 small">
+            Hợp đồng <strong>{claim.contractNumber}</strong> · Tai nạn <strong>{claim.accidentCode}</strong> · Thiệt hại ước tính <strong>{money(claim.estimatedDamage)}</strong>
+          </Alert>
+          <MoneyField form={form} name="requestedAmount" label="Số tiền yêu cầu" required help="Không vượt quá thiệt hại ước tính và hạn mức còn lại của hợp đồng" />
+          <TextAreaField form={form} name="description" label="Nội dung yêu cầu" required maxLength={1000} help="Tối thiểu 20 ký tự" />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="light" onClick={onHide}>Đóng</Button>
+          <SubmitButton busy={form.formState.isSubmitting}>Lưu</SubmitButton>
+        </Modal.Footer>
+      </Form>
+    </Modal>
+  );
+}
+
 function DetailModal({ claim, onHide }) {
   if (!claim) return null;
   const c = claim;
@@ -96,9 +135,26 @@ export default function CompensationsPage() {
   const [approving, setApproving] = useState(null);
   const [rejecting, setRejecting] = useState(null);
   const [paying, setPaying] = useState(null);
+  const [editing, setEditing] = useState(null);
+  const [deleting, setDeleting] = useState(null);
+  const [busy, setBusy] = useState(false);
   const { data, loading } = paged;
 
   const after = (msg, close) => () => { close(null); toast.success(msg); paged.reload(); };
+
+  const confirmDelete = async () => {
+    setBusy(true);
+    try {
+      await compensationApi.remove(deleting.id);
+      toast.success('Đã rút yêu cầu bồi thường');
+      paged.reload();
+    } catch (e) {
+      toast.error(errorMessage(e));
+    } finally {
+      setBusy(false);
+      setDeleting(null);
+    }
+  };
 
   return (
     <>
@@ -137,6 +193,12 @@ export default function CompensationsPage() {
                   <td className="small text-nowrap">{dateTime(c.createdAt)}</td>
                   <td className="text-end text-nowrap">
                     <Button size="sm" variant="outline-secondary" className="me-1" onClick={() => setViewing(c)} title="Xem"><i className="bi bi-eye" /></Button>
+                    {c.status === 'PENDING' && (
+                      <>
+                        <Button size="sm" variant="outline-primary" className="me-1" onClick={() => setEditing(c)} title="Sửa"><i className="bi bi-pencil" /></Button>
+                        <Button size="sm" variant="outline-danger" className="me-1" onClick={() => setDeleting(c)} title="Rút yêu cầu"><i className="bi bi-trash" /></Button>
+                      </>
+                    )}
                     {isStaff && c.status === 'PENDING' && (
                       <>
                         <Button size="sm" variant="success" className="me-1" onClick={() => setApproving(c)}>Duyệt</Button>
@@ -154,6 +216,11 @@ export default function CompensationsPage() {
       </Card>
 
       <DetailModal claim={viewing} onHide={() => setViewing(null)} />
+      <EditModal claim={editing} onHide={() => setEditing(null)} onDone={after('Đã cập nhật yêu cầu bồi thường', setEditing)} />
+      <ConfirmModal show={!!deleting} title="Rút yêu cầu bồi thường" busy={busy} confirmText="Rút yêu cầu"
+        onHide={() => setDeleting(null)} onConfirm={confirmDelete}>
+        Rút yêu cầu <strong>{deleting?.claimCode}</strong>? Chỉ rút được yêu cầu đang chờ duyệt; khai báo tai nạn vẫn được giữ lại.
+      </ConfirmModal>
       <ApproveModal claim={approving} onHide={() => setApproving(null)} onDone={after('Đã duyệt yêu cầu bồi thường', setApproving)} />
       <ReasonModal show={!!rejecting} title={`Từ chối yêu cầu ${rejecting?.claimCode || ''}`} label="Lý do từ chối" confirmText="Từ chối"
         onHide={() => setRejecting(null)} onSubmit={(note) => compensationApi.reject(rejecting.id, note).then(after('Đã từ chối yêu cầu', setRejecting))} />

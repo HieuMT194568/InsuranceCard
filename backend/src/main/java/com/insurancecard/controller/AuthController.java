@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.insurancecard.dto.AuthDtos.ActionResponse;
-import com.insurancecard.dto.AuthDtos.AuthResponse;
-import com.insurancecard.dto.AuthDtos.EmailRequest;
-import com.insurancecard.dto.AuthDtos.LoginRequest;
-import com.insurancecard.dto.AuthDtos.RegisterRequest;
-import com.insurancecard.dto.AuthDtos.ResetPasswordRequest;
-import com.insurancecard.dto.AuthDtos.TokenRequest;
+import com.insurancecard.model.dto.AuthDtos.ActionResponse;
+import com.insurancecard.model.dto.AuthDtos.AuthResponse;
+import com.insurancecard.model.dto.AuthDtos.EmailRequest;
+import com.insurancecard.model.dto.AuthDtos.LoginRequest;
+import com.insurancecard.model.dto.AuthDtos.RegisterRequest;
+import com.insurancecard.model.dto.AuthDtos.ResetPasswordRequest;
+import com.insurancecard.model.dto.AuthDtos.TokenRequest;
 import com.insurancecard.service.AuthService;
 
 import jakarta.validation.Valid;

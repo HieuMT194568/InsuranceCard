@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.insurancecard.common.PageResponse;
-import com.insurancecard.domain.enums.ProductStatus;
-import com.insurancecard.dto.ProductDtos.ProductRequest;
-import com.insurancecard.dto.ProductDtos.ProductResponse;
+import com.insurancecard.model.dto.ProductDtos.ProductRequest;
+import com.insurancecard.model.dto.ProductDtos.ProductResponse;
+import com.insurancecard.model.enums.ProductStatus;
 import com.insurancecard.service.ProductService;
 
 import jakarta.validation.Valid;

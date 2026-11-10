@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import com.insurancecard.domain.enums.Role;
+import com.insurancecard.model.enums.Role;
 
 /** Người dùng đang đăng nhập (lấy từ JWT + DB). customerId chỉ có với role CUSTOMER. */
 public record AppUserPrincipal(Long userId, String email, String fullName, Role role, Long customerId) {
@@ -15,8 +15,13 @@ public record AppUserPrincipal(Long userId, String email, String fullName, Role 
         return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
     }
 
+    /** Nhân viên hoặc quản trị viên (ADMIN kế thừa mọi quyền của STAFF). */
     public boolean isStaff() {
-        return role == Role.STAFF;
+        return role == Role.STAFF || role == Role.ADMIN;
+    }
+
+    public boolean isAdmin() {
+        return role == Role.ADMIN;
     }
 
     public boolean isCustomer() {

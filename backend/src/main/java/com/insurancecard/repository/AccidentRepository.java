@@ -9,8 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.insurancecard.domain.Accident;
-import com.insurancecard.domain.enums.AccidentStatus;
+import com.insurancecard.model.entity.Accident;
+import com.insurancecard.model.enums.AccidentStatus;
 
 public interface AccidentRepository extends JpaRepository<Accident, Long> {
 

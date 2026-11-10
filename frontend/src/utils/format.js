@@ -1,3 +1,5 @@
+import { STATUS_LABELS } from './statusLabels';
+
 export const money = (v) =>
   v === null || v === undefined || v === '' ? '—' : `${Number(v).toLocaleString('vi-VN')} ₫`;
 
@@ -13,8 +15,8 @@ export const dateTime = (v) => {
   return `${date(s)} ${s.slice(11, 16)}`;
 };
 
-/** Nhãn tiếng Việt + màu badge cho mọi enum của backend. */
-export const LABELS = {
+/** Nhãn tiếng Việt + màu badge cho mọi enum của backend (module v1 ở đây, module mới ở statusLabels.js). */
+const BASE_LABELS = {
   contract: {
     PENDING_PAYMENT: ['Chờ thanh toán', 'warning'],
     ACTIVE: ['Đang hiệu lực', 'success'],
@@ -58,6 +60,8 @@ export const LABELS = {
     WAIVED: ['Được miễn', 'secondary'],
   },
 };
+
+export const LABELS = { ...BASE_LABELS, ...STATUS_LABELS };
 
 export const PAYMENT_METHODS = {
   CASH: 'Tiền mặt (tại quầy)',

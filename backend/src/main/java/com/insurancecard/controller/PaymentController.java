@@ -1,14 +1,15 @@
 package com.insurancecard.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.insurancecard.common.PageResponse;
-import com.insurancecard.domain.enums.PaymentStatus;
-import com.insurancecard.domain.enums.PaymentType;
-import com.insurancecard.dto.PaymentDtos.PaymentResponse;
+import com.insurancecard.model.dto.PaymentDtos.PaymentResponse;
+import com.insurancecard.model.enums.PaymentStatus;
+import com.insurancecard.model.enums.PaymentType;
 import com.insurancecard.service.PaymentService;
 
 /** Lịch sử giao dịch: chỉ đọc (giao dịch được sinh tự động từ nghiệp vụ hợp đồng/phạt/bồi thường). */
@@ -30,5 +31,10 @@ public class PaymentController {
                                                 @RequestParam(required = false) Integer page,
                                                 @RequestParam(required = false) Integer size) {
         return paymentService.search(q, customerId, type, status, page, size);
+    }
+
+    @GetMapping("/{id}")
+    public PaymentResponse get(@PathVariable Long id) {
+        return paymentService.get(id);
     }
 }

@@ -1,9 +1,9 @@
-package com.insurancecard.dto;
+package com.insurancecard.model.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import com.insurancecard.domain.enums.ProductStatus;
+import com.insurancecard.model.enums.ProductStatus;
 
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;

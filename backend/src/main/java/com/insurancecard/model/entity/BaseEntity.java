@@ -1,4 +1,4 @@
-package com.insurancecard.domain;
+package com.insurancecard.model.entity;
 
 import java.time.LocalDateTime;
 

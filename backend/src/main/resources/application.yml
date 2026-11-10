@@ -26,6 +26,9 @@ spring:
     # DB đã được tạo sẵn bằng script database/*.sql (= V1 + V2) -> đánh dấu đã ở version 2
     baseline-on-migrate: true
     baseline-version: 2
+    # Mỗi thành viên có dải version riêng (Hiếu V10-19, Quyên V20-29, Minh V30-39, Khang V40-49, Hoàng V50-59)
+    # -> merge không theo thứ tự vẫn chạy được.
+    out-of-order: true
   jackson:
     default-property-inclusion: always
     deserialization:

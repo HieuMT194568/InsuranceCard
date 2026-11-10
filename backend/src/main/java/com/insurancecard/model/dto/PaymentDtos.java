@@ -1,11 +1,11 @@
-package com.insurancecard.dto;
+package com.insurancecard.model.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import com.insurancecard.domain.enums.PaymentMethod;
-import com.insurancecard.domain.enums.PaymentStatus;
-import com.insurancecard.domain.enums.PaymentType;
+import com.insurancecard.model.enums.PaymentMethod;
+import com.insurancecard.model.enums.PaymentStatus;
+import com.insurancecard.model.enums.PaymentType;
 
 public final class PaymentDtos {
 

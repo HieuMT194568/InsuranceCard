@@ -10,9 +10,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.insurancecard.domain.User;
-import com.insurancecard.domain.enums.Role;
-import com.insurancecard.domain.enums.UserStatus;
+import com.insurancecard.model.entity.User;
+import com.insurancecard.model.enums.Role;
+import com.insurancecard.model.enums.UserStatus;
 import com.insurancecard.repository.CustomerRepository;
 import com.insurancecard.repository.UserRepository;
 

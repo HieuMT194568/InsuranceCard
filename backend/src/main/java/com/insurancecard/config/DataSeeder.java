@@ -7,33 +7,34 @@ import java.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.insurancecard.common.CodeGenerator;
-import com.insurancecard.domain.Accident;
-import com.insurancecard.domain.Compensation;
-import com.insurancecard.domain.Contract;
-import com.insurancecard.domain.Customer;
-import com.insurancecard.domain.InsuranceProduct;
-import com.insurancecard.domain.Payment;
-import com.insurancecard.domain.Punishment;
-import com.insurancecard.domain.User;
-import com.insurancecard.domain.Vehicle;
-import com.insurancecard.domain.enums.AccidentStatus;
-import com.insurancecard.domain.enums.ClaimStatus;
-import com.insurancecard.domain.enums.ContractStatus;
-import com.insurancecard.domain.enums.DamageType;
-import com.insurancecard.domain.enums.Gender;
-import com.insurancecard.domain.enums.PaymentMethod;
-import com.insurancecard.domain.enums.PaymentStatus;
-import com.insurancecard.domain.enums.PaymentType;
-import com.insurancecard.domain.enums.ProductStatus;
-import com.insurancecard.domain.enums.PunishmentStatus;
-import com.insurancecard.domain.enums.Role;
-import com.insurancecard.domain.enums.UserStatus;
-import com.insurancecard.domain.enums.ViolationType;
+import com.insurancecard.model.entity.Accident;
+import com.insurancecard.model.entity.Compensation;
+import com.insurancecard.model.entity.Contract;
+import com.insurancecard.model.entity.Customer;
+import com.insurancecard.model.entity.InsuranceProduct;
+import com.insurancecard.model.entity.Payment;
+import com.insurancecard.model.entity.Punishment;
+import com.insurancecard.model.entity.User;
+import com.insurancecard.model.entity.Vehicle;
+import com.insurancecard.model.enums.AccidentStatus;
+import com.insurancecard.model.enums.ClaimStatus;
+import com.insurancecard.model.enums.ContractStatus;
+import com.insurancecard.model.enums.DamageType;
+import com.insurancecard.model.enums.Gender;
+import com.insurancecard.model.enums.PaymentMethod;
+import com.insurancecard.model.enums.PaymentStatus;
+import com.insurancecard.model.enums.PaymentType;
+import com.insurancecard.model.enums.ProductStatus;
+import com.insurancecard.model.enums.PunishmentStatus;
+import com.insurancecard.model.enums.Role;
+import com.insurancecard.model.enums.UserStatus;
+import com.insurancecard.model.enums.ViolationType;
 import com.insurancecard.repository.AccidentRepository;
 import com.insurancecard.repository.CompensationRepository;
 import com.insurancecard.repository.ContractRepository;
@@ -47,8 +48,10 @@ import com.insurancecard.repository.VehicleRepository;
 /**
  * Tạo dữ liệu demo khi DB còn trống (app.seed.enabled=true).
  * Tài khoản: staff@insurancecard.vn / Staff@123, customer@insurancecard.vn / Customer@123
+ * (admin@insurancecard.vn / Admin@123 do config/seed/AdminSeeder tạo). Chạy trước các seeder của từng module.
  */
 @Component
+@Order(1)
 public class DataSeeder implements CommandLineRunner {
 
     private static final Logger log = LoggerFactory.getLogger(DataSeeder.class);

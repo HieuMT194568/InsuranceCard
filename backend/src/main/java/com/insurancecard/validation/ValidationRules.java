@@ -42,6 +42,10 @@ public final class ValidationRules {
     public static final String PRODUCT_CODE = "^[A-Z0-9_-]{3,20}$";
     public static final String PRODUCT_CODE_MSG = "Mã sản phẩm gồm 3-20 ký tự: chữ in hoa, số, '-' hoặc '_'";
 
+    /** Mã gara liên kết (M02): 3-20 ký tự A-Z, 0-9, gạch ngang, gạch dưới. */
+    public static final String GARAGE_CODE = "^[A-Z0-9_-]{3,20}$";
+    public static final String GARAGE_CODE_MSG = "Mã gara gồm 3-20 ký tự: chữ in hoa, số, '-' hoặc '_'";
+
     public static final int MIN_CUSTOMER_AGE = 18;
     public static final int MAX_CUSTOMER_AGE = 100;
     public static final int MIN_MANUFACTURE_YEAR = 1980;

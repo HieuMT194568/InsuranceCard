@@ -1,12 +1,12 @@
-package com.insurancecard.dto;
+package com.insurancecard.model.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import com.insurancecard.domain.enums.AccidentStatus;
-import com.insurancecard.domain.enums.ClaimStatus;
-import com.insurancecard.domain.enums.PaymentMethod;
-import com.insurancecard.dto.AccidentDtos.AccidentRequest;
+import com.insurancecard.model.dto.AccidentDtos.AccidentRequest;
+import com.insurancecard.model.enums.AccidentStatus;
+import com.insurancecard.model.enums.ClaimStatus;
+import com.insurancecard.model.enums.PaymentMethod;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMax;
@@ -30,6 +30,18 @@ public final class CompensationDtos {
             @Valid
             AccidentRequest accident,
 
+            @NotNull(message = "Vui lòng nhập số tiền yêu cầu bồi thường")
+            @DecimalMin(value = "10000", message = "Số tiền yêu cầu tối thiểu 10.000 VND")
+            @DecimalMax(value = "10000000000", message = "Số tiền yêu cầu tối đa 10.000.000.000 VND")
+            @Digits(integer = 15, fraction = 0, message = "Số tiền phải là số nguyên (VND)")
+            BigDecimal requestedAmount,
+
+            @NotBlank(message = "Vui lòng nhập nội dung yêu cầu")
+            @Size(min = 20, max = 1000, message = "Nội dung yêu cầu từ 20 đến 1000 ký tự")
+            String description) {}
+
+    /** Sửa yêu cầu bồi thường đang chờ duyệt: chỉ đổi số tiền và nội dung (không đổi tai nạn). */
+    public record ClaimUpdateRequest(
             @NotNull(message = "Vui lòng nhập số tiền yêu cầu bồi thường")
             @DecimalMin(value = "10000", message = "Số tiền yêu cầu tối thiểu 10.000 VND")
             @DecimalMax(value = "10000000000", message = "Số tiền yêu cầu tối đa 10.000.000.000 VND")

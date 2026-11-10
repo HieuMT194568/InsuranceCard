@@ -1,8 +1,8 @@
-package com.insurancecard.domain;
+package com.insurancecard.model.entity;
 
 import java.math.BigDecimal;
 
-import com.insurancecard.domain.enums.ProductStatus;
+import com.insurancecard.model.enums.ProductStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

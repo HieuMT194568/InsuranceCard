@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.insurancecard.domain.Customer;
-import com.insurancecard.domain.enums.UserStatus;
+import com.insurancecard.model.entity.Customer;
+import com.insurancecard.model.enums.UserStatus;
 
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 

@@ -1,28 +1,28 @@
-package com.insurancecard.service;
+package com.insurancecard.mapper;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-import com.insurancecard.domain.Accident;
-import com.insurancecard.domain.Compensation;
-import com.insurancecard.domain.Contract;
-import com.insurancecard.domain.Customer;
-import com.insurancecard.domain.InsuranceProduct;
-import com.insurancecard.domain.Payment;
-import com.insurancecard.domain.Punishment;
-import com.insurancecard.domain.User;
-import com.insurancecard.domain.Vehicle;
-import com.insurancecard.domain.enums.ContractStatus;
-import com.insurancecard.domain.enums.PunishmentStatus;
-import com.insurancecard.dto.AccidentDtos.AccidentResponse;
-import com.insurancecard.dto.AuthDtos.UserInfo;
-import com.insurancecard.dto.CompensationDtos.CompensationResponse;
-import com.insurancecard.dto.ContractDtos.ContractResponse;
-import com.insurancecard.dto.CustomerDtos.CustomerResponse;
-import com.insurancecard.dto.PaymentDtos.PaymentResponse;
-import com.insurancecard.dto.ProductDtos.ProductResponse;
-import com.insurancecard.dto.PunishmentDtos.PunishmentResponse;
-import com.insurancecard.dto.VehicleDtos.VehicleResponse;
+import com.insurancecard.model.dto.AccidentDtos.AccidentResponse;
+import com.insurancecard.model.dto.AuthDtos.UserInfo;
+import com.insurancecard.model.dto.CompensationDtos.CompensationResponse;
+import com.insurancecard.model.dto.ContractDtos.ContractResponse;
+import com.insurancecard.model.dto.CustomerDtos.CustomerResponse;
+import com.insurancecard.model.dto.PaymentDtos.PaymentResponse;
+import com.insurancecard.model.dto.ProductDtos.ProductResponse;
+import com.insurancecard.model.dto.PunishmentDtos.PunishmentResponse;
+import com.insurancecard.model.dto.VehicleDtos.VehicleResponse;
+import com.insurancecard.model.entity.Accident;
+import com.insurancecard.model.entity.Compensation;
+import com.insurancecard.model.entity.Contract;
+import com.insurancecard.model.entity.Customer;
+import com.insurancecard.model.entity.InsuranceProduct;
+import com.insurancecard.model.entity.Payment;
+import com.insurancecard.model.entity.Punishment;
+import com.insurancecard.model.entity.User;
+import com.insurancecard.model.entity.Vehicle;
+import com.insurancecard.model.enums.ContractStatus;
+import com.insurancecard.model.enums.PunishmentStatus;
 
 /** Chuyển entity -> DTO trả về cho client (không bao giờ trả passwordHash). */
 public final class DtoMapper {

@@ -62,6 +62,7 @@ export const contractApi = {
 
 export const paymentApi = {
   search: (params) => data(client.get('/payments', { params: clean(params) })),
+  get: (id) => data(client.get(`/payments/${id}`)),
 };
 
 export const accidentApi = {
@@ -77,6 +78,8 @@ export const compensationApi = {
   search: (params) => data(client.get('/compensations', { params: clean(params) })),
   get: (id) => data(client.get(`/compensations/${id}`)),
   create: (body) => data(client.post('/compensations', body)),
+  update: (id, body) => data(client.put(`/compensations/${id}`, body)),
+  remove: (id) => data(client.delete(`/compensations/${id}`)),
   approve: (id, body) => data(client.post(`/compensations/${id}/approve`, body)),
   reject: (id, note) => data(client.post(`/compensations/${id}/reject`, { note })),
   payout: (id, method) => data(client.post(`/compensations/${id}/payout`, { method })),
@@ -93,5 +96,6 @@ export const punishmentApi = {
 
 export const settingApi = {
   list: () => data(client.get('/settings')),
+  get: (key) => data(client.get(`/settings/${key}`)),
   update: (key, value) => data(client.put(`/settings/${key}`, { value })),
 };

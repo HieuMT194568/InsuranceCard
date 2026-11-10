@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.insurancecard.common.MessageResponse;
 import com.insurancecard.common.PageResponse;
-import com.insurancecard.domain.enums.UserStatus;
-import com.insurancecard.dto.CustomerDtos.CustomerCreatedResponse;
-import com.insurancecard.dto.CustomerDtos.CustomerRequest;
-import com.insurancecard.dto.CustomerDtos.CustomerResponse;
-import com.insurancecard.dto.CustomerDtos.SetPasswordRequest;
-import com.insurancecard.dto.CustomerDtos.StatusRequest;
+import com.insurancecard.model.dto.CustomerDtos.CustomerCreatedResponse;
+import com.insurancecard.model.dto.CustomerDtos.CustomerRequest;
+import com.insurancecard.model.dto.CustomerDtos.CustomerResponse;
+import com.insurancecard.model.dto.CustomerDtos.SetPasswordRequest;
+import com.insurancecard.model.dto.CustomerDtos.StatusRequest;
+import com.insurancecard.model.enums.UserStatus;
 import com.insurancecard.service.CustomerService;
 
 import jakarta.validation.Valid;
