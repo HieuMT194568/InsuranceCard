@@ -1,0 +1,277 @@
+@startuml package-diagram
+' Insurance Card – Package Diagram
+' Mũi tên nét đứt A ..> B = package A import / gọi package B («use»).
+' Package nét đứt (common, validation, model.enums) được dùng bởi hầu hết package khác
+' nên không vẽ mũi tên để sơ đồ gọn.
+' Xem: https://plantuml.com/  (VS Code: extension "PlantUML", Alt+D để xem trước)
+
+title Insurance Card – Package Diagram
+
+skinparam packageStyle folder
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam ArrowColor #555555
+skinparam package {
+  BorderColor #555555
+}
+
+' =========================================================== TESTS
+package "tests" as tests #EEEAF7 {
+  note as N_tests
+    api-test.mjs
+    241 ca kiểm thử REST API
+  end note
+}
+
+' =========================================================== FRONTEND
+package "frontend\n(React 19 · Vite · React Router · React Bootstrap)" as frontend #EAF0FA {
+
+  package "app" as fe_app {
+    note as N_app
+      main.jsx · App.jsx
+      khởi động, định tuyến theo vai trò
+    end note
+  }
+
+  package "pages" as fe_pages {
+    package "public" as fe_public {
+      note as N_public
+        Home · Login · Register
+        VerifyEmail · ForgotPassword
+        ResetPassword · NotFound
+      end note
+    }
+    package "customer" as fe_customer {
+      note as N_customer
+        CustomerDashboard
+      end note
+    }
+    package "shared" as fe_shared {
+      note as N_shared
+        Contracts ×3 · Payments
+        Accidents · Punishments
+        Compensations ×2
+        Vehicles · Profile
+      end note
+    }
+    package "staff" as fe_staff {
+      note as N_staff
+        Customers ×3 · Products
+        Settings · StaffDashboard
+      end note
+    }
+  }
+
+  package "api" as fe_api {
+    note as N_api
+      client.js (axios, gắn JWT, bắt 401)
+      services.js
+    end note
+  }
+
+  package "context" as fe_context {
+    note as N_context
+      AuthContext · ToastContext
+    end note
+  }
+
+  package "components" as fe_components {
+    note as N_components
+      layouts · form · ui
+      modals · pickers
+    end note
+  }
+
+  package "hooks" as fe_hooks {
+    note as N_hooks
+      usePaged
+    end note
+  }
+
+  package "utils" as fe_utils {
+    note as N_utils
+      errors · format
+      validation (Zod)
+    end note
+  }
+}
+
+' =========================================================== BACKEND
+package "backend – MVC\n(com.insurancecard · Spring Boot 3.5 · Java 17)" as backend #E8F4F0 {
+
+  package "controller  «C»" as be_controller {
+    note as N_controller
+      11 lớp @RestController
+      Auth · Me · Customer · Vehicle · Product
+      Contract · Payment · Accident
+      Compensation · Punishment · Setting
+    end note
+  }
+
+  package "model  «M»" as be_model {
+    package "dto" as be_dto {
+      note as N_dto
+        11 file *Dtos (Java record)
+        request / response + annotation validate
+      end note
+    }
+    package "entity" as be_domain {
+      note as N_domain
+        11 entity JPA + BaseEntity
+        User · Customer · Vehicle · InsuranceProduct
+        Contract · Payment · Accident · Compensation
+        Punishment · VerificationToken · SystemSetting
+      end note
+    }
+    package "enums" as be_enums #line.dashed {
+      note as N_enums
+        14 enum: Role · UserStatus
+        ContractStatus · ClaimStatus ...
+      end note
+    }
+  }
+
+  package "service" as be_service {
+    note as N_service
+      12 interface nghiệp vụ
+      (MailService, DashboardService, ...)
+    end note
+    package "impl" as be_service_impl {
+      note as N_service_impl
+        12 lớp @Service *ServiceImpl
+        validate quy tắc + @Transactional
+      end note
+    }
+  }
+
+  package "repository" as be_repository {
+    note as N_repository
+      11 interface Spring Data JPA
+    end note
+  }
+
+  package "mapper" as be_mapper {
+    note as N_mapper
+      DtoMapper (entity -> DTO)
+    end note
+  }
+
+  package "scheduler" as be_scheduler {
+    note as N_scheduler
+      ContractStatusScheduler
+    end note
+  }
+
+  package "security" as be_security {
+    note as N_security
+      JwtService · JwtAuthenticationFilter
+      CurrentUser · AppUserPrincipal
+    end note
+  }
+
+  package "config" as be_config {
+    note as N_config
+      SecurityConfig · AppProperties
+      DataSeeder · OpenApiConfig · JacksonConfig
+    end note
+  }
+
+  package "common" as be_common #line.dashed {
+    note as N_common
+      ApiException · ErrorResponse
+      GlobalExceptionHandler
+      PageResponse · Paging · CodeGenerator
+      TextNormalizer
+    end note
+  }
+
+  package "validation" as be_validation #line.dashed {
+    note as N_validation
+      @AgeBetween · @RawString
+      ValidationRules
+    end note
+  }
+
+  package "db.migration\n«resources» Flyway" as be_migration {
+    note as N_migration
+      mysql / sqlserver
+      V1__init_schema.sql
+      V2__seed_settings.sql
+    end note
+  }
+}
+
+' =========================================================== DATABASE
+package "database\n(MySQL 8 mặc định · SQL Server)" as database #FBF1E4 {
+  package "mysql" as db_mysql {
+    note as N_mysql
+      insurance_card_mysql.sql
+    end note
+  }
+  package "sqlserver" as db_sqlserver {
+    note as N_sqlserver
+      00_create_database.sql
+      01_schema_and_settings.sql
+    end note
+  }
+}
+
+' =========================================================== PHỤ THUỘC – FRONTEND
+fe_app ..> fe_pages
+fe_app ..> fe_components
+fe_app ..> fe_context
+
+fe_pages ..> fe_api
+fe_pages ..> fe_context
+fe_pages ..> fe_components
+fe_pages ..> fe_hooks
+fe_pages ..> fe_utils
+fe_staff ..> fe_shared : dùng lại\nContractsPage,\nVehiclesPage
+
+fe_components ..> fe_api
+fe_components ..> fe_context
+fe_components ..> fe_utils
+fe_context ..> fe_api
+fe_hooks ..> fe_utils
+
+' =========================================================== PHỤ THUỘC – BACKEND
+be_controller ..> be_service
+be_controller ..> be_dto
+be_controller ..> be_security
+
+be_service ..> be_dto
+be_service ..> be_domain
+be_service_impl ..> be_service : implements
+be_service_impl ..> be_repository
+be_service_impl ..> be_mapper
+be_service_impl ..> be_security
+be_service_impl ..> be_config
+
+be_mapper ..> be_domain
+be_mapper ..> be_dto
+be_scheduler ..> be_service
+
+be_repository ..> be_domain
+
+be_security ..> be_repository
+be_security ..> be_domain
+be_security ..> be_config
+
+be_config ..> be_security
+be_config ..> be_repository
+be_config ..> be_domain
+
+' =========================================================== GIAO TIẾP GIỮA CÁC KHỐI
+fe_api ..> be_controller : HTTP REST /api\nJSON · Bearer JWT
+tests ..> be_controller : HTTP
+be_repository ..> database : JDBC · JPA
+be_migration ..> database : Flyway
+
+legend bottom left
+  Mũi tên nét đứt A ..> B: package A import / gọi package B («use»).
+  Package viền nét đứt (common, validation, model.enums): package dùng chung,
+  hầu hết package khác đều dùng nên không vẽ mũi tên.
+endlegend
+
+@enduml

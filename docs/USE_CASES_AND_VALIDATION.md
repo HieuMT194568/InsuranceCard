@@ -18,7 +18,8 @@ Các case được kiểm chứng tự động bằng `tests/api-test.mjs` (mã 
 |---|---|
 | Khách vãng lai (Guest) | Xem trang chủ, gói bảo hiểm; đăng ký, đăng nhập, quên mật khẩu |
 | Khách hàng (CUSTOMER) | Quản lý hồ sơ, xe; mua/gia hạn/huỷ hợp đồng; thanh toán; khai báo tai nạn; yêu cầu bồi thường; nộp phạt; xem lịch sử |
-| Nhân viên (STAFF) | Mọi chức năng của khách hàng trên mọi khách + quản lý khách hàng, xử lý tai nạn / bồi thường / vi phạm, sản phẩm, cấu hình |
+| Nhân viên (STAFF) | Mọi chức năng của khách hàng trên mọi khách + quản lý khách hàng, xử lý tai nạn / bồi thường / vi phạm, sản phẩm, gara liên kết |
+| Quản trị viên (ADMIN – v2) | Mọi chức năng của nhân viên + tài khoản nhân viên, nhật ký hệ thống, cấu hình (xem SRS v2: `docs/SRS_InsuranceCard_v2.docx`) |
 
 Phân quyền: JWT + `@PreAuthorize`. Khách hàng chỉ thấy dữ liệu của mình — truy cập dữ liệu người khác trả **404** (không lộ sự tồn tại).
 
@@ -77,7 +78,7 @@ Chuẩn hoá đầu vào: mọi chuỗi được **trim**, chuỗi rỗng/chỉ 
 
 ---
 
-## 4. Cấu hình hệ thống (bảng `system_settings`, nhân viên sửa trên màn hình Cấu hình)
+## 4. Cấu hình hệ thống (bảng `system_settings`, quản trị viên sửa trên màn hình Cấu hình – từ v2 chỉ ADMIN)
 
 | Khoá | Mặc định | Khoảng | Ý nghĩa |
 |---|---|---|---|

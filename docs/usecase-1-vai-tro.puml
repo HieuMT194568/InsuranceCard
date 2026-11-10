@@ -1,0 +1,156 @@
+@startuml usecase-1-vai-tro
+' Insurance Card – Use Case Diagram tổng quát theo vai trò
+' (Phần 1 "Vai trò" trong docs/USE_CASES_AND_VALIDATION.md)
+' Mã UC-xx ứng với mục 5 của tài liệu đặc tả.
+' Xem: https://plantuml.com/use-case-diagram  (VS Code: extension "PlantUML", Alt+D để xem trước)
+
+!include usecase-style.iuml
+
+title Insurance Card – Use Case Diagram tổng quát\n<size:13><color:#64748B>Phần 1 · Vai trò</color></size>
+
+left to right direction
+
+' =========================================================== ACTOR
+actor "Khách vãng lai" as Guest
+actor "Người dùng\nđã đăng nhập" as User
+actor "Khách hàng" as Customer
+actor "Nhân viên" as Staff
+actor "Hệ thống Email" as Mail <<hệ thống>>
+actor "Bộ lập lịch" as Scheduler <<hệ thống>>
+
+Customer -[norank]-|> User
+Staff -[norank]-|> Customer
+
+rectangle "Hệ thống quản lý bảo hiểm xe máy – Insurance Card" as SYS {
+
+  package "Công khai" as P_PUB #F8FAFC;line:CBD5E1 {
+    usecase "Xem trang chủ" as UC_Home
+    usecase "Xem gói bảo hiểm" as UC_PubProducts
+    usecase "Đăng ký tài khoản\n<size:10>UC-01</size>" as UC01
+    usecase "Xác thực email\n<size:10>UC-02</size>" as UC02
+    usecase "Gửi lại link xác thực" as UC02b
+    usecase "Đăng nhập\n<size:10>UC-03</size>" as UC03
+    usecase "Quên mật khẩu\n<size:10>UC-04</size>" as UC04
+    usecase "Đặt lại mật khẩu" as UC04b
+    usecase "Gửi email" as UC_Mail
+  }
+
+  package "Tài khoản" as P_ACC #EFF6FF;line:BFDBFE {
+    usecase "Đăng xuất" as UC_Logout
+    usecase "Đổi mật khẩu\n<size:10>UC-05</size>" as UC05
+    usecase "Xem dashboard\n<size:10>UC-22</size>" as UC22
+    usecase "Cập nhật hồ sơ\n<size:10>UC-06</size>" as UC06
+  }
+
+  package "Nghiệp vụ bảo hiểm" as P_BIZ #ECFDF5;line:A7F3D0 {
+    usecase "Quản lý xe\n<size:10>UC-08</size>" as UC08
+    usecase "Xem hợp đồng" as UC_ViewContract
+    usecase "Tạo hợp đồng\n<size:10>UC-10</size>" as UC10
+    usecase "Gia hạn hợp đồng\n<size:10>UC-13</size>" as UC13
+    usecase "Huỷ hợp đồng\n<size:10>UC-14</size>" as UC14
+    usecase "Khai báo tai nạn\n<size:10>UC-16</size>" as UC16
+    usecase "Yêu cầu bồi thường\n<size:10>UC-18</size>" as UC18
+    usecase "Xem biên bản phạt" as UC_ViewPunish
+    usecase "Nộp phạt\n<size:10>UC-20</size>" as UC20pay
+    usecase "Xem lịch sử giao dịch\n<size:10>UC-21</size>" as UC21
+    usecase "Thanh toán phí\n<size:10>UC-12</size>" as UC12
+  }
+
+  package "Quản trị (chỉ Nhân viên)" as P_ADM #FFF7ED;line:FED7AA {
+    usecase "Quản lý khách hàng\n<size:10>UC-07</size>" as UC07
+    usecase "Tìm kiếm / lọc" as UC07a
+    usecase "Tạo khách hàng" as UC07b
+    usecase "Sửa khách hàng" as UC07c
+    usecase "Khoá / mở khoá" as UC07d
+    usecase "Đặt lại mật khẩu KH" as UC07e
+    usecase "Xoá khách hàng" as UC07f
+
+    usecase "Quản lý sản phẩm\n<size:10>UC-09</size>" as UC09
+    usecase "Sửa hợp đồng\n<size:10>UC-11</size>" as UC11
+    usecase "Thu phí tiền mặt" as UC12cash
+    usecase "Xử lý tai nạn\n<size:10>UC-17</size>" as UC17
+    usecase "Xử lý bồi thường\n<size:10>UC-19</size>" as UC19
+    usecase "Duyệt" as UC19a
+    usecase "Từ chối" as UC19b
+    usecase "Chi trả" as UC19c
+    usecase "Quản lý biên bản phạt\n<size:10>UC-20</size>" as UC20
+    usecase "Miễn phạt" as UC20waive
+    usecase "Cấu hình hệ thống\n<size:10>xem Phần 4</size>" as UC_Settings
+  }
+
+  package "Tự động" as P_AUTO #F5F3FF;line:DDD6FE {
+    usecase "Cập nhật trạng thái\nhợp đồng\n<size:10>UC-15</size>" as UC15
+  }
+}
+
+' =========================================================== KHÁCH VÃNG LAI
+Guest --> UC_Home
+Guest --> UC_PubProducts
+Guest --> UC01
+Guest --> UC02
+Guest --> UC03
+Guest --> UC04
+Guest --> UC04b
+
+UC01 ..> UC_Mail : <<include>>
+UC04 ..> UC_Mail : <<include>>
+UC02b .[norank].> UC02 : <<extend>>
+UC02b ..> UC_Mail : <<include>>
+UC_Mail --> Mail
+
+' =========================================================== NGƯỜI DÙNG ĐÃ ĐĂNG NHẬP
+User --> UC_Logout
+User --> UC05
+User --> UC22
+User --> UC06
+
+' =========================================================== KHÁCH HÀNG (Nhân viên kế thừa)
+Customer --> UC08
+Customer --> UC_ViewContract
+Customer --> UC10
+Customer --> UC13
+Customer --> UC14
+Customer --> UC16
+Customer --> UC18
+Customer --> UC_ViewPunish
+Customer --> UC20pay
+Customer --> UC21
+Customer --> UC12
+
+UC13 .[norank].> UC10 : <<include>>
+UC18 .[norank].> UC16 : <<extend>>
+
+' =========================================================== CHỈ NHÂN VIÊN
+Staff --> UC07
+Staff --> UC09
+Staff --> UC11
+Staff --> UC17
+Staff --> UC19
+Staff --> UC20
+Staff --> UC_Settings
+
+UC07 <.. UC07a : <<extend>>
+UC07 <.. UC07b : <<extend>>
+UC07 <.. UC07c : <<extend>>
+UC07 <.. UC07d : <<extend>>
+UC07 <.. UC07e : <<extend>>
+UC07 <.. UC07f : <<extend>>
+UC12cash .[norank].> UC12 : <<extend>>
+UC19 <.. UC19a : <<extend>>
+UC19 <.. UC19b : <<extend>>
+UC19 <.. UC19c : <<extend>>
+UC20 <.. UC20waive : <<extend>>
+
+' =========================================================== TỰ ĐỘNG
+Scheduler --> UC15
+
+legend bottom left
+  <b>Ghi chú</b>
+  • Nhân viên kế thừa mọi use case của Khách hàng và thực hiện trên <b>mọi</b> khách hàng;
+    Khách hàng chỉ thao tác trên dữ liệu của mình (truy cập dữ liệu người khác => 404).
+  • Thanh toán: Khách hàng dùng chuyển khoản / thẻ / ví điện tử; tiền mặt chỉ do Nhân viên thu tại quầy.
+  • Đăng nhập: sai mật khẩu 5 lần liên tiếp => tạm khoá 15 phút; tài khoản PENDING / LOCKED không đăng nhập được.
+  • Bộ lập lịch (mỗi giờ + khi khởi động): ACTIVE quá hạn => EXPIRED; PENDING_PAYMENT quá ngày bắt đầu => CANCELLED.
+endlegend
+
+@enduml

@@ -1,0 +1,70 @@
+' Insurance Card – style dùng chung cho các use case diagram
+' Được !include trong usecase-*.puml
+
+skinparam dpi 150
+skinparam shadowing false
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName "Segoe UI"
+skinparam defaultFontSize 12
+skinparam defaultFontColor #1E293B
+skinparam roundCorner 14
+skinparam nodesep 18
+skinparam ranksep 60
+
+skinparam title {
+  FontSize 20
+  FontStyle bold
+  FontColor #0F172A
+}
+
+skinparam ArrowColor #64748B
+skinparam ArrowThickness 1.1
+skinparam ArrowFontSize 10
+skinparam ArrowFontColor #64748B
+skinparam ArrowFontStyle italic
+
+skinparam actor {
+  BackgroundColor #E0E7FF
+  BorderColor #4F46E5
+  BorderThickness 1.5
+  FontStyle bold
+  FontColor #312E81
+  StereotypeFontColor #6366F1
+  StereotypeFontSize 10
+}
+
+skinparam usecase {
+  BackgroundColor #FFFFFF
+  BorderColor #475569
+  BorderThickness 1.2
+  FontSize 12
+}
+
+skinparam rectangle {
+  BackgroundColor #FFFFFF
+  BorderColor #94A3B8
+  BorderThickness 1.5
+  FontSize 15
+  FontStyle bold
+  FontColor #0F172A
+}
+
+skinparam package {
+  FontSize 13
+  FontStyle bold
+  FontColor #334155
+  BorderThickness 1.2
+}
+
+skinparam legend {
+  BackgroundColor #F8FAFC
+  BorderColor #CBD5E1
+  FontSize 11
+  FontColor #334155
+}
+
+skinparam note {
+  BackgroundColor #FEFCE8
+  BorderColor #EAB308
+  FontSize 11
+}

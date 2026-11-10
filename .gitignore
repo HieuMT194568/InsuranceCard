@@ -15,3 +15,6 @@ frontend/dist/
 *.iml
 .DS_Store
 Thumbs.db
+
+# Bản sao lưu tự động của Visual Paradigm
+docs/visual-paradigm/*.bak_*

@@ -1,0 +1,97 @@
+@startuml usecase-4-cau-hinh
+' Insurance Card – Use Case Diagram cấu hình hệ thống
+' (Phần 4 "Cấu hình hệ thống" trong docs/USE_CASES_AND_VALIDATION.md)
+' API: GET /api/settings, PUT /api/settings/{key} – chỉ vai trò STAFF.
+' Xem: https://plantuml.com/use-case-diagram  (VS Code: extension "PlantUML", Alt+D để xem trước)
+
+!include usecase-style.iuml
+
+title Insurance Card – Use Case Diagram cấu hình hệ thống\n<size:13><color:#64748B>Phần 4 · Cấu hình hệ thống (bảng system_settings)</color></size>
+
+left to right direction
+
+' =========================================================== ACTOR
+actor "Nhân viên" as Staff
+actor "Khách hàng" as Customer
+actor "Khách vãng lai" as Guest
+
+Staff -[norank]-|> Customer
+
+rectangle "Insurance Card – Cấu hình hệ thống" as SYS {
+
+  package "Quản lý cấu hình (màn hình Cấu hình)" as P_CFG #FFF7ED;line:FED7AA {
+    usecase "Xem danh sách\ntham số cấu hình" as UC_List
+    usecase "Cập nhật\ntham số cấu hình" as UC_Update
+    usecase "Kiểm tra giá trị\ntrong khoảng [min, max]" as UC_Validate
+    usecase "Ghi nhận người &\nthời điểm cập nhật" as UC_Audit
+
+    usecase "Hạn được gia hạn\n<size:10>RENEWAL_WINDOW_DAYS · 1–90 · mặc định 30</size>" as S1
+    usecase "Số ngày chọn trước ngày bắt đầu\n<size:10>MAX_START_DATE_ADVANCE_DAYS · 0–365 · mặc định 60</size>" as S2
+    usecase "Hạn khai báo tai nạn / bồi thường\n<size:10>CLAIM_DEADLINE_DAYS · 1–730 · mặc định 365</size>" as S3
+    usecase "% hoàn phí khi huỷ hợp đồng\n<size:10>CANCEL_REFUND_PERCENT · 0–100 · mặc định 80</size>" as S4
+    usecase "Hạn nộp phạt mặc định\n<size:10>PENALTY_DUE_DAYS · 1–180 · mặc định 30</size>" as S5
+    usecase "Hạn link xác thực email\n<size:10>VERIFY_TOKEN_EXPIRY_HOURS · 1–168 giờ · mặc định 24</size>" as S6
+    usecase "Hạn link đặt lại mật khẩu\n<size:10>RESET_TOKEN_EXPIRY_MINUTES · 5–1440 phút · mặc định 30</size>" as S7
+  }
+
+  package "Nghiệp vụ áp dụng tham số (có hiệu lực ngay)" as P_USE #ECFDF5;line:A7F3D0 {
+    usecase "Lập biên bản phạt\n<size:10>UC-20</size>" as UC20
+    usecase "Tạo hợp đồng\n<size:10>UC-10</size>" as UC10
+    usecase "Gia hạn hợp đồng\n<size:10>UC-13</size>" as UC13
+    usecase "Huỷ hợp đồng\n<size:10>UC-14</size>" as UC14
+    usecase "Khai báo tai nạn\n<size:10>UC-16</size>" as UC16
+    usecase "Yêu cầu bồi thường\n<size:10>UC-18</size>" as UC18
+    usecase "Xem HĐ sắp hết hạn\ntrên dashboard\n<size:10>UC-22</size>" as UC22
+    usecase "Đăng ký / gửi lại\nlink xác thực\n<size:10>UC-01, UC-02</size>" as UC01
+    usecase "Quên mật khẩu\n<size:10>UC-04</size>" as UC04
+
+    usecase "Đọc tham số\ncấu hình" as UC_Read
+  }
+}
+
+' =========================================================== NHÂN VIÊN – QUẢN LÝ CẤU HÌNH
+Staff --> UC_List
+Staff --> UC_Update
+
+UC_Update ..> UC_Validate : <<include>>
+UC_Update ..> UC_Audit : <<include>>
+
+UC_Update <|-- S7
+UC_Update <|-- S6
+UC_Update <|-- S5
+UC_Update <|-- S4
+UC_Update <|-- S3
+UC_Update <|-- S2
+UC_Update <|-- S1
+
+' =========================================================== NGHIỆP VỤ ĐỌC CẤU HÌNH
+Staff --> UC20
+Customer --> UC10
+Customer --> UC13
+Customer --> UC14
+Customer --> UC16
+Customer --> UC18
+Customer --> UC22
+Guest --> UC01
+Guest --> UC04
+
+UC20 ..> UC_Read : <<include>>\nPENALTY_DUE_DAYS
+UC10 ..> UC_Read : <<include>>\nMAX_START_DATE_ADVANCE_DAYS
+UC13 ..> UC_Read : <<include>>\nRENEWAL_WINDOW_DAYS
+UC14 ..> UC_Read : <<include>>\nCANCEL_REFUND_PERCENT
+UC16 ..> UC_Read : <<include>>\nCLAIM_DEADLINE_DAYS
+UC18 ..> UC_Read : <<include>>\nCLAIM_DEADLINE_DAYS
+UC22 ..> UC_Read : <<include>>\nRENEWAL_WINDOW_DAYS
+UC01 ..> UC_Read : <<include>>\nVERIFY_TOKEN_EXPIRY_HOURS
+UC04 ..> UC_Read : <<include>>\nRESET_TOKEN_EXPIRY_MINUTES
+
+legend bottom left
+  <b>Ghi chú</b>
+  • Tiền điều kiện quản lý cấu hình: đăng nhập vai trò STAFF (chưa đăng nhập => 401; Khách hàng gọi /api/settings => 403).
+  • Nhân viên kế thừa các use case của Khách hàng.
+  • Kiểm tra giá trị: thiếu giá trị => 400 "Vui lòng nhập giá trị"; ngoài khoảng => 400 "Giá trị phải từ {min} đến {max}";
+    khoá không tồn tại => 404 (TC-S01).
+  • Giá trị mới có hiệu lực ngay cho các thao tác sau đó (TC-S05).
+endlegend
+
+@enduml

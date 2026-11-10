@@ -1,0 +1,1573 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Project Name="InsuranceCard - Phan 1 Vai tro" UmlVersion="2.x" Xml_structure="simple" xmlns="http://www.visual-paradigm.com/product/vpuml/modelexporter">
+	<Models>
+		<Stereotype Id="ST00034" Name="RestController" BaseType="Class"/>
+		<Stereotype Id="ST00035" Name="Configuration" BaseType="Class"/>
+		<Stereotype Id="ST00036" Name="record" BaseType="Class"/>
+		<Stereotype Id="ST00037" Name="Service" BaseType="Class"/>
+		<Stereotype Id="ST00038" Name="Component" BaseType="Class"/>
+		<Stereotype Id="ST00039" Name="Interface" BaseType="Class"/>
+		<Stereotype Id="ST00040" Name="MappedSuperclass" BaseType="Class"/>
+		<Stereotype Id="ST00041" Name="Entity" BaseType="Class"/>
+		<Stereotype Id="ST00042" Name="enumeration" BaseType="Class"/>
+		<Stereotype Id="ST00119" Name="use" BaseType="Dependency"/>
+		<Stereotype Id="ST00121" Name="create" BaseType="Dependency"/>
+		<Package Id="P00148" Name="com.insurancecard">
+			<ModelChildren>
+				<Package Id="P00149" Name="controller">
+					<ModelChildren>
+						<Class Id="C00001" Name="AuthController" Abstract="false" Visibility="public">
+							<Stereotypes>
+								<Stereotype Idref="ST00034" Name="RestController"/>
+							</Stereotypes>
+							<ModelChildren>
+								<Attribute Id="A00160" Name="authService" Visibility="private" Type="AuthService" Scope="instance"/>
+								<Operation Id="O00161" Name="login" Visibility="public" ReturnType="AuthResponse" Scope="instance" Abstract="false">
+									<ModelChildren>
+										<Parameter Id="PA00162" Name="request" Type="LoginRequest" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00163" Name="register" Visibility="public" ReturnType="ActionResponse" Scope="instance" Abstract="false">
+									<ModelChildren>
+										<Parameter Id="PA00164" Name="request" Type="RegisterRequest" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00165" Name="verifyEmail" Visibility="public" ReturnType="ActionResponse" Scope="instance" Abstract="false">
+									<ModelChildren>
+										<Parameter Id="PA00166" Name="request" Type="TokenRequest" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00167" Name="resendVerification" Visibility="public" ReturnType="ActionResponse" Scope="instance" Abstract="false">
+									<ModelChildren>
+										<Parameter Id="PA00168" Name="request" Type="EmailRequest" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00169" Name="forgotPassword" Visibility="public" ReturnType="ActionResponse" Scope="instance" Abstract="false">
+									<ModelChildren>
+										<Parameter Id="PA00170" Name="request" Type="EmailRequest" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00171" Name="resetPassword" Visibility="public" ReturnType="ActionResponse" Scope="instance" Abstract="false">
+									<ModelChildren>
+										<Parameter Id="PA00172" Name="request" Type="ResetPasswordRequest" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+							</ModelChildren>
+						</Class>
+						<Class Id="C00002" Name="MeController" Abstract="false" Visibility="public">
+							<Stereotypes>
+								<Stereotype Idref="ST00034" Name="RestController"/>
+							</Stereotypes>
+							<ModelChildren>
+								<Attribute Id="A00173" Name="currentUser" Visibility="private" Type="CurrentUser" Scope="instance"/>
+								<Attribute Id="A00174" Name="customerService" Visibility="private" Type="CustomerService" Scope="instance"/>
+								<Attribute Id="A00175" Name="authService" Visibility="private" Type="AuthService" Scope="instance"/>
+								<Attribute Id="A00176" Name="dashboardService" Visibility="private" Type="DashboardService" Scope="instance"/>
+								<Operation Id="O00177" Name="me" Visibility="public" ReturnType="ProfileResponse" Scope="instance" Abstract="false"/>
+								<Operation Id="O00178" Name="updateProfile" Visibility="public" ReturnType="ProfileResponse" Scope="instance" Abstract="false">
+									<ModelChildren>
+										<Parameter Id="PA00179" Name="request" Type="ProfileUpdateRequest" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00180" Name="updateStaffProfile" Visibility="public" ReturnType="ProfileResponse" Scope="instance" Abstract="false">
+									<ModelChildren>
+										<Parameter Id="PA00181" Name="request" Type="StaffProfileUpdateRequest" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00182" Name="changePassword" Visibility="public" ReturnType="AuthResponse" Scope="instance" Abstract="false">
+									<ModelChildren>
+										<Parameter Id="PA00183" Name="request" Type="ChangePasswordRequest" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00184" Name="customerDashboard" Visibility="public" ReturnType="CustomerDashboard" Scope="instance" Abstract="false"/>
+								<Operation Id="O00185" Name="staffDashboard" Visibility="public" ReturnType="StaffDashboard" Scope="instance" Abstract="false"/>
+							</ModelChildren>
+						</Class>
+					</ModelChildren>
+				</Package>
+				<Package Id="P00150" Name="service">
+					<ModelChildren>
+						<Class Id="C00005" Name="AuthService" Abstract="false" Visibility="public">
+							<Stereotypes>
+								<Stereotype Idref="ST00037" Name="Service"/>
+							</Stereotypes>
+							<ModelChildren>
+								<Attribute Id="A00186" Name="RANDOM" Visibility="private" Type="SecureRandom" Scope="classifier"/>
+								<Attribute Id="A00187" Name="userRepository" Visibility="private" Type="UserRepository" Scope="instance"/>
+								<Attribute Id="A00188" Name="customerRepository" Visibility="private" Type="CustomerRepository" Scope="instance"/>
+								<Attribute Id="A00189" Name="tokenRepository" Visibility="private" Type="VerificationTokenRepository" Scope="instance"/>
+								<Attribute Id="A00190" Name="passwordEncoder" Visibility="private" Type="PasswordEncoder" Scope="instance"/>
+								<Attribute Id="A00191" Name="jwtService" Visibility="private" Type="JwtService" Scope="instance"/>
+								<Attribute Id="A00192" Name="mailService" Visibility="private" Type="MailService" Scope="instance"/>
+								<Attribute Id="A00193" Name="settingService" Visibility="private" Type="SettingService" Scope="instance"/>
+								<Attribute Id="A00194" Name="props" Visibility="private" Type="AppProperties" Scope="instance"/>
+								<Operation Id="O00195" Name="register" Visibility="public" ReturnType="ActionResponse" Scope="instance" Abstract="false">
+									<ModelChildren>
+										<Parameter Id="PA00196" Name="r" Type="RegisterRequest" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00197" Name="verifyEmail" Visibility="public" ReturnType="ActionResponse" Scope="instance" Abstract="false">
+									<ModelChildren>
+										<Parameter Id="PA00198" Name="token" Type="String" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00199" Name="resendVerification" Visibility="public" ReturnType="ActionResponse" Scope="instance" Abstract="false">
+									<ModelChildren>
+										<Parameter Id="PA00200" Name="rawEmail" Type="String" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00201" Name="issueVerificationLink" Visibility="private" ReturnType="String" Scope="instance" Abstract="false">
+									<ModelChildren>
+										<Parameter Id="PA00202" Name="user" Type="User" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00203" Name="login" Visibility="public" ReturnType="AuthResponse" Scope="instance" Abstract="false">
+									<ModelChildren>
+										<Parameter Id="PA00204" Name="r" Type="LoginRequest" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00205" Name="invalidCredentials" Visibility="private" ReturnType="ApiException" Scope="classifier" Abstract="false"/>
+								<Operation Id="O00206" Name="buildAuthResponse" Visibility="public" ReturnType="AuthResponse" Scope="instance" Abstract="false">
+									<ModelChildren>
+										<Parameter Id="PA00207" Name="user" Type="User" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00208" Name="forgotPassword" Visibility="public" ReturnType="ActionResponse" Scope="instance" Abstract="false">
+									<ModelChildren>
+										<Parameter Id="PA00209" Name="rawEmail" Type="String" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00210" Name="resetPassword" Visibility="public" ReturnType="ActionResponse" Scope="instance" Abstract="false">
+									<ModelChildren>
+										<Parameter Id="PA00211" Name="r" Type="ResetPasswordRequest" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00212" Name="changePassword" Visibility="public" ReturnType="AuthResponse" Scope="instance" Abstract="false">
+									<ModelChildren>
+										<Parameter Id="PA00213" Name="userId" Type="Long" Direction="in"/>
+										<Parameter Id="PA00214" Name="r" Type="ChangePasswordRequest" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00215" Name="applyNewPassword" Visibility="public" ReturnType="void" Scope="instance" Abstract="false">
+									<ModelChildren>
+										<Parameter Id="PA00216" Name="user" Type="User" Direction="in"/>
+										<Parameter Id="PA00217" Name="rawPassword" Type="String" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00218" Name="createToken" Visibility="private" ReturnType="String" Scope="instance" Abstract="false">
+									<ModelChildren>
+										<Parameter Id="PA00219" Name="user" Type="User" Direction="in"/>
+										<Parameter Id="PA00220" Name="type" Type="TokenType" Direction="in"/>
+										<Parameter Id="PA00221" Name="validity" Type="Duration" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00222" Name="normalizeEmail" Visibility="public" ReturnType="String" Scope="classifier" Abstract="false">
+									<ModelChildren>
+										<Parameter Id="PA00223" Name="email" Type="String" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00224" Name="normalizeName" Visibility="public" ReturnType="String" Scope="classifier" Abstract="false">
+									<ModelChildren>
+										<Parameter Id="PA00225" Name="name" Type="String" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+							</ModelChildren>
+						</Class>
+						<Class Id="C00006" Name="MailService" Abstract="false" Visibility="public">
+							<Stereotypes>
+								<Stereotype Idref="ST00037" Name="Service"/>
+							</Stereotypes>
+							<ModelChildren>
+								<Attribute Id="A00226" Name="props" Visibility="private" Type="AppProperties" Scope="instance"/>
+								<Attribute Id="A00227" Name="mailSender" Visibility="private" Type="ObjectProvider&lt;JavaMailSender&gt;" Scope="instance"/>
+								<Operation Id="O00228" Name="isDemoMode" Visibility="public" ReturnType="boolean" Scope="instance" Abstract="false"/>
+								<Operation Id="O00229" Name="send" Visibility="public" ReturnType="void" Scope="instance" Abstract="false">
+									<ModelChildren>
+										<Parameter Id="PA00230" Name="to" Type="String" Direction="in"/>
+										<Parameter Id="PA00231" Name="subject" Type="String" Direction="in"/>
+										<Parameter Id="PA00232" Name="body" Type="String" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+							</ModelChildren>
+						</Class>
+						<Class Id="C00007" Name="SettingService" Abstract="false" Visibility="public">
+							<Stereotypes>
+								<Stereotype Idref="ST00037" Name="Service"/>
+							</Stereotypes>
+							<ModelChildren>
+								<Attribute Id="A00233" Name="VERIFY_TOKEN_EXPIRY_HOURS" Visibility="public" Type="String" Scope="classifier"/>
+								<Attribute Id="A00234" Name="RESET_TOKEN_EXPIRY_MINUTES" Visibility="public" Type="String" Scope="classifier"/>
+								<Operation Id="O00235" Name="getInt" Visibility="public" ReturnType="int" Scope="instance" Abstract="false">
+									<ModelChildren>
+										<Parameter Id="PA00236" Name="key" Type="String" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+							</ModelChildren>
+						</Class>
+					</ModelChildren>
+				</Package>
+				<Package Id="P00151" Name="repository">
+					<ModelChildren>
+						<Class Id="C00012" Name="UserRepository" Abstract="false" Visibility="public">
+							<Stereotypes>
+								<Stereotype Idref="ST00039" Name="Interface"/>
+							</Stereotypes>
+							<ModelChildren>
+								<Operation Id="O00237" Name="findByEmailIgnoreCase" Visibility="public" ReturnType="Optional&lt;User&gt;" Scope="instance" Abstract="true">
+									<ModelChildren>
+										<Parameter Id="PA00238" Name="email" Type="String" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00239" Name="existsByEmailIgnoreCase" Visibility="public" ReturnType="boolean" Scope="instance" Abstract="true">
+									<ModelChildren>
+										<Parameter Id="PA00240" Name="email" Type="String" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00241" Name="existsByEmailIgnoreCaseAndIdNot" Visibility="public" ReturnType="boolean" Scope="instance" Abstract="true">
+									<ModelChildren>
+										<Parameter Id="PA00242" Name="email" Type="String" Direction="in"/>
+										<Parameter Id="PA00243" Name="id" Type="Long" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00244" Name="existsByPhone" Visibility="public" ReturnType="boolean" Scope="instance" Abstract="true">
+									<ModelChildren>
+										<Parameter Id="PA00245" Name="phone" Type="String" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00246" Name="existsByPhoneAndIdNot" Visibility="public" ReturnType="boolean" Scope="instance" Abstract="true">
+									<ModelChildren>
+										<Parameter Id="PA00247" Name="phone" Type="String" Direction="in"/>
+										<Parameter Id="PA00248" Name="id" Type="Long" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00249" Name="countByRoleAndStatus" Visibility="public" ReturnType="long" Scope="instance" Abstract="true">
+									<ModelChildren>
+										<Parameter Id="PA00250" Name="role" Type="Role" Direction="in"/>
+										<Parameter Id="PA00251" Name="status" Type="UserStatus" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+							</ModelChildren>
+						</Class>
+						<Class Id="C00013" Name="CustomerRepository" Abstract="false" Visibility="public">
+							<Stereotypes>
+								<Stereotype Idref="ST00039" Name="Interface"/>
+							</Stereotypes>
+							<ModelChildren>
+								<Operation Id="O00252" Name="findByUserId" Visibility="public" ReturnType="Optional&lt;Customer&gt;" Scope="instance" Abstract="true">
+									<ModelChildren>
+										<Parameter Id="PA00253" Name="userId" Type="Long" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00254" Name="existsByIdNumber" Visibility="public" ReturnType="boolean" Scope="instance" Abstract="true">
+									<ModelChildren>
+										<Parameter Id="PA00255" Name="idNumber" Type="String" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00256" Name="existsByIdNumberAndIdNot" Visibility="public" ReturnType="boolean" Scope="instance" Abstract="true">
+									<ModelChildren>
+										<Parameter Id="PA00257" Name="idNumber" Type="String" Direction="in"/>
+										<Parameter Id="PA00258" Name="id" Type="Long" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00259" Name="search" Visibility="public" ReturnType="Page&lt;Customer&gt;" Scope="instance" Abstract="true">
+									<ModelChildren>
+										<Parameter Id="PA00260" Name="q" Type="String" Direction="in"/>
+										<Parameter Id="PA00261" Name="customerId" Type="Long" Direction="in"/>
+										<Parameter Id="PA00262" Name="status" Type="UserStatus" Direction="in"/>
+										<Parameter Id="PA00263" Name="pageable" Type="Pageable" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+							</ModelChildren>
+						</Class>
+						<Class Id="C00014" Name="VerificationTokenRepository" Abstract="false" Visibility="public">
+							<Stereotypes>
+								<Stereotype Idref="ST00039" Name="Interface"/>
+							</Stereotypes>
+							<ModelChildren>
+								<Operation Id="O00264" Name="findByTokenAndType" Visibility="public" ReturnType="Optional&lt;VerificationToken&gt;" Scope="instance" Abstract="true">
+									<ModelChildren>
+										<Parameter Id="PA00265" Name="token" Type="String" Direction="in"/>
+										<Parameter Id="PA00266" Name="type" Type="TokenType" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00267" Name="findByUserIdAndTypeAndUsedAtIsNull" Visibility="public" ReturnType="List&lt;VerificationToken&gt;" Scope="instance" Abstract="true">
+									<ModelChildren>
+										<Parameter Id="PA00268" Name="userId" Type="Long" Direction="in"/>
+										<Parameter Id="PA00269" Name="type" Type="TokenType" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00270" Name="deleteByUserId" Visibility="public" ReturnType="void" Scope="instance" Abstract="true">
+									<ModelChildren>
+										<Parameter Id="PA00271" Name="userId" Type="Long" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+							</ModelChildren>
+						</Class>
+					</ModelChildren>
+				</Package>
+				<Package Id="P00152" Name="security">
+					<ModelChildren>
+						<Class Id="C00008" Name="JwtAuthenticationFilter" Abstract="false" Visibility="public">
+							<Stereotypes>
+								<Stereotype Idref="ST00038" Name="Component"/>
+							</Stereotypes>
+							<ModelChildren>
+								<Attribute Id="A00272" Name="jwtService" Visibility="private" Type="JwtService" Scope="instance"/>
+								<Attribute Id="A00273" Name="userRepository" Visibility="private" Type="UserRepository" Scope="instance"/>
+								<Attribute Id="A00274" Name="customerRepository" Visibility="private" Type="CustomerRepository" Scope="instance"/>
+								<Operation Id="O00275" Name="doFilterInternal" Visibility="protected" ReturnType="void" Scope="instance" Abstract="false">
+									<ModelChildren>
+										<Parameter Id="PA00276" Name="request" Type="HttpServletRequest" Direction="in"/>
+										<Parameter Id="PA00277" Name="response" Type="HttpServletResponse" Direction="in"/>
+										<Parameter Id="PA00278" Name="chain" Type="FilterChain" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00279" Name="authenticate" Visibility="private" ReturnType="void" Scope="instance" Abstract="false">
+									<ModelChildren>
+										<Parameter Id="PA00280" Name="claims" Type="Claims" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+							</ModelChildren>
+						</Class>
+						<Class Id="C00009" Name="JwtService" Abstract="false" Visibility="public">
+							<Stereotypes>
+								<Stereotype Idref="ST00037" Name="Service"/>
+							</Stereotypes>
+							<ModelChildren>
+								<Attribute Id="A00281" Name="key" Visibility="private" Type="SecretKey" Scope="instance"/>
+								<Attribute Id="A00282" Name="expirationMinutes" Visibility="private" Type="long" Scope="instance"/>
+								<Operation Id="O00283" Name="JwtService" Visibility="public" ReturnType="" Scope="instance" Abstract="false">
+									<ModelChildren>
+										<Parameter Id="PA00284" Name="props" Type="AppProperties" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00285" Name="generate" Visibility="public" ReturnType="String" Scope="instance" Abstract="false">
+									<ModelChildren>
+										<Parameter Id="PA00286" Name="user" Type="User" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00287" Name="getExpirationSeconds" Visibility="public" ReturnType="long" Scope="instance" Abstract="false"/>
+								<Operation Id="O00288" Name="parse" Visibility="public" ReturnType="Claims" Scope="instance" Abstract="false">
+									<ModelChildren>
+										<Parameter Id="PA00289" Name="token" Type="String" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+							</ModelChildren>
+						</Class>
+						<Class Id="C00010" Name="CurrentUser" Abstract="false" Visibility="public">
+							<Stereotypes>
+								<Stereotype Idref="ST00038" Name="Component"/>
+							</Stereotypes>
+							<ModelChildren>
+								<Operation Id="O00290" Name="get" Visibility="public" ReturnType="AppUserPrincipal" Scope="instance" Abstract="false"/>
+								<Operation Id="O00291" Name="scopeCustomerId" Visibility="public" ReturnType="Long" Scope="instance" Abstract="false">
+									<ModelChildren>
+										<Parameter Id="PA00292" Name="requestedCustomerId" Type="Long" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00293" Name="checkOwnership" Visibility="public" ReturnType="void" Scope="instance" Abstract="false">
+									<ModelChildren>
+										<Parameter Id="PA00294" Name="ownerCustomerId" Type="Long" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+							</ModelChildren>
+						</Class>
+						<Class Id="C00011" Name="AppUserPrincipal" Abstract="false" Visibility="public">
+							<Stereotypes>
+								<Stereotype Idref="ST00036" Name="record"/>
+							</Stereotypes>
+							<ModelChildren>
+								<Attribute Id="A00295" Name="userId" Visibility="public" Type="Long" Scope="instance"/>
+								<Attribute Id="A00296" Name="email" Visibility="public" Type="String" Scope="instance"/>
+								<Attribute Id="A00297" Name="fullName" Visibility="public" Type="String" Scope="instance"/>
+								<Attribute Id="A00298" Name="role" Visibility="public" Type="Role" Scope="instance"/>
+								<Attribute Id="A00299" Name="customerId" Visibility="public" Type="Long" Scope="instance"/>
+								<Operation Id="O00300" Name="authorities" Visibility="public" ReturnType="Collection&lt;? extends GrantedAuthority&gt;" Scope="instance" Abstract="false"/>
+								<Operation Id="O00301" Name="isStaff" Visibility="public" ReturnType="boolean" Scope="instance" Abstract="false"/>
+								<Operation Id="O00302" Name="isCustomer" Visibility="public" ReturnType="boolean" Scope="instance" Abstract="false"/>
+							</ModelChildren>
+						</Class>
+					</ModelChildren>
+				</Package>
+				<Package Id="P00153" Name="config">
+					<ModelChildren>
+						<Class Id="C00003" Name="SecurityConfig" Abstract="false" Visibility="public">
+							<Stereotypes>
+								<Stereotype Idref="ST00035" Name="Configuration"/>
+							</Stereotypes>
+							<ModelChildren>
+								<Attribute Id="A00303" Name="jwtFilter" Visibility="private" Type="JwtAuthenticationFilter" Scope="instance"/>
+								<Attribute Id="A00304" Name="props" Visibility="private" Type="AppProperties" Scope="instance"/>
+								<Attribute Id="A00305" Name="objectMapper" Visibility="private" Type="ObjectMapper" Scope="instance"/>
+								<Operation Id="O00306" Name="filterChain" Visibility="public" ReturnType="SecurityFilterChain" Scope="instance" Abstract="false">
+									<ModelChildren>
+										<Parameter Id="PA00307" Name="http" Type="HttpSecurity" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00308" Name="passwordEncoder" Visibility="public" ReturnType="PasswordEncoder" Scope="instance" Abstract="false"/>
+								<Operation Id="O00309" Name="jwtFilterRegistration" Visibility="public" ReturnType="FilterRegistrationBean&lt;JwtAuthenticationFilter&gt;" Scope="instance" Abstract="false">
+									<ModelChildren>
+										<Parameter Id="PA00310" Name="filter" Type="JwtAuthenticationFilter" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00311" Name="writeError" Visibility="private" ReturnType="void" Scope="instance" Abstract="false">
+									<ModelChildren>
+										<Parameter Id="PA00312" Name="req" Type="HttpServletRequest" Direction="in"/>
+										<Parameter Id="PA00313" Name="res" Type="HttpServletResponse" Direction="in"/>
+										<Parameter Id="PA00314" Name="status" Type="int" Direction="in"/>
+										<Parameter Id="PA00315" Name="code" Type="String" Direction="in"/>
+										<Parameter Id="PA00316" Name="message" Type="String" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+								<Operation Id="O00317" Name="corsSource" Visibility="private" ReturnType="CorsConfigurationSource" Scope="instance" Abstract="false"/>
+							</ModelChildren>
+						</Class>
+						<Class Id="C00004" Name="AppProperties" Abstract="false" Visibility="public">
+							<Stereotypes>
+								<Stereotype Idref="ST00036" Name="record"/>
+							</Stereotypes>
+							<ModelChildren>
+								<Attribute Id="A00318" Name="jwt" Visibility="public" Type="Jwt" Scope="instance"/>
+								<Attribute Id="A00319" Name="cors" Visibility="public" Type="Cors" Scope="instance"/>
+								<Attribute Id="A00320" Name="frontendUrl" Visibility="public" Type="String" Scope="instance"/>
+								<Attribute Id="A00321" Name="mail" Visibility="public" Type="Mail" Scope="instance"/>
+								<Attribute Id="A00322" Name="security" Visibility="public" Type="Security" Scope="instance"/>
+								<Attribute Id="A00323" Name="seed" Visibility="public" Type="Seed" Scope="instance"/>
+							</ModelChildren>
+						</Class>
+					</ModelChildren>
+				</Package>
+				<Package Id="P00154" Name="domain">
+					<ModelChildren>
+						<Package Id="P00155" Name="enums">
+							<ModelChildren>
+								<Class Id="C00019" Name="Role" Abstract="false" Visibility="public">
+									<Stereotypes>
+										<Stereotype Idref="ST00042" Name="enumeration"/>
+									</Stereotypes>
+									<ModelChildren>
+										<EnumerationLiteral Id="L00324" Name="CUSTOMER"/>
+										<EnumerationLiteral Id="L00325" Name="STAFF"/>
+									</ModelChildren>
+								</Class>
+								<Class Id="C00020" Name="UserStatus" Abstract="false" Visibility="public">
+									<Stereotypes>
+										<Stereotype Idref="ST00042" Name="enumeration"/>
+									</Stereotypes>
+									<ModelChildren>
+										<EnumerationLiteral Id="L00326" Name="PENDING"/>
+										<EnumerationLiteral Id="L00327" Name="ACTIVE"/>
+										<EnumerationLiteral Id="L00328" Name="LOCKED"/>
+									</ModelChildren>
+								</Class>
+								<Class Id="C00021" Name="TokenType" Abstract="false" Visibility="public">
+									<Stereotypes>
+										<Stereotype Idref="ST00042" Name="enumeration"/>
+									</Stereotypes>
+									<ModelChildren>
+										<EnumerationLiteral Id="L00329" Name="VERIFY_EMAIL"/>
+										<EnumerationLiteral Id="L00330" Name="RESET_PASSWORD"/>
+									</ModelChildren>
+								</Class>
+								<Class Id="C00022" Name="Gender" Abstract="false" Visibility="public">
+									<Stereotypes>
+										<Stereotype Idref="ST00042" Name="enumeration"/>
+									</Stereotypes>
+									<ModelChildren>
+										<EnumerationLiteral Id="L00331" Name="MALE"/>
+										<EnumerationLiteral Id="L00332" Name="FEMALE"/>
+										<EnumerationLiteral Id="L00333" Name="OTHER"/>
+									</ModelChildren>
+								</Class>
+							</ModelChildren>
+						</Package>
+						<Class Id="C00015" Name="BaseEntity" Abstract="true" Visibility="public">
+							<Stereotypes>
+								<Stereotype Idref="ST00040" Name="MappedSuperclass"/>
+							</Stereotypes>
+							<ModelChildren>
+								<Attribute Id="A00334" Name="id" Visibility="private" Type="Long" Scope="instance"/>
+								<Attribute Id="A00335" Name="createdAt" Visibility="private" Type="LocalDateTime" Scope="instance"/>
+								<Attribute Id="A00336" Name="updatedAt" Visibility="private" Type="LocalDateTime" Scope="instance"/>
+								<Operation Id="O00337" Name="onCreate" Visibility="protected" ReturnType="void" Scope="instance" Abstract="false"/>
+								<Operation Id="O00338" Name="onUpdate" Visibility="protected" ReturnType="void" Scope="instance" Abstract="false"/>
+							</ModelChildren>
+						</Class>
+						<Class Id="C00016" Name="User" Abstract="false" Visibility="public">
+							<Stereotypes>
+								<Stereotype Idref="ST00041" Name="Entity"/>
+							</Stereotypes>
+							<ModelChildren>
+								<Attribute Id="A00339" Name="email" Visibility="private" Type="String" Scope="instance"/>
+								<Attribute Id="A00340" Name="passwordHash" Visibility="private" Type="String" Scope="instance"/>
+								<Attribute Id="A00341" Name="fullName" Visibility="private" Type="String" Scope="instance"/>
+								<Attribute Id="A00342" Name="phone" Visibility="private" Type="String" Scope="instance"/>
+								<Attribute Id="A00343" Name="role" Visibility="private" Type="Role" Scope="instance"/>
+								<Attribute Id="A00344" Name="status" Visibility="private" Type="UserStatus" Scope="instance"/>
+								<Attribute Id="A00345" Name="failedLoginCount" Visibility="private" Type="int" Scope="instance"/>
+								<Attribute Id="A00346" Name="lockoutUntil" Visibility="private" Type="LocalDateTime" Scope="instance"/>
+								<Attribute Id="A00347" Name="passwordChangedAt" Visibility="private" Type="LocalDateTime" Scope="instance"/>
+							</ModelChildren>
+						</Class>
+						<Class Id="C00017" Name="Customer" Abstract="false" Visibility="public">
+							<Stereotypes>
+								<Stereotype Idref="ST00041" Name="Entity"/>
+							</Stereotypes>
+							<ModelChildren>
+								<Attribute Id="A00348" Name="idNumber" Visibility="private" Type="String" Scope="instance"/>
+								<Attribute Id="A00349" Name="dateOfBirth" Visibility="private" Type="LocalDate" Scope="instance"/>
+								<Attribute Id="A00350" Name="gender" Visibility="private" Type="Gender" Scope="instance"/>
+								<Attribute Id="A00351" Name="address" Visibility="private" Type="String" Scope="instance"/>
+								<Operation Id="O00352" Name="getCustomerCode" Visibility="public" ReturnType="String" Scope="instance" Abstract="false"/>
+							</ModelChildren>
+						</Class>
+						<Class Id="C00018" Name="VerificationToken" Abstract="false" Visibility="public">
+							<Stereotypes>
+								<Stereotype Idref="ST00041" Name="Entity"/>
+							</Stereotypes>
+							<ModelChildren>
+								<Attribute Id="A00353" Name="id" Visibility="private" Type="Long" Scope="instance"/>
+								<Attribute Id="A00354" Name="token" Visibility="private" Type="String" Scope="instance"/>
+								<Attribute Id="A00355" Name="type" Visibility="private" Type="TokenType" Scope="instance"/>
+								<Attribute Id="A00356" Name="expiresAt" Visibility="private" Type="LocalDateTime" Scope="instance"/>
+								<Attribute Id="A00357" Name="usedAt" Visibility="private" Type="LocalDateTime" Scope="instance"/>
+								<Attribute Id="A00358" Name="createdAt" Visibility="private" Type="LocalDateTime" Scope="instance"/>
+								<Operation Id="O00359" Name="isUsable" Visibility="public" ReturnType="boolean" Scope="instance" Abstract="false">
+									<ModelChildren>
+										<Parameter Id="PA00360" Name="now" Type="LocalDateTime" Direction="in"/>
+									</ModelChildren>
+								</Operation>
+							</ModelChildren>
+						</Class>
+					</ModelChildren>
+				</Package>
+				<Package Id="P00156" Name="dto">
+					<ModelChildren>
+						<Package Id="P00157" Name="AuthDtos">
+							<ModelChildren>
+								<Class Id="C00025" Name="LoginRequest" Abstract="false" Visibility="public">
+									<Stereotypes>
+										<Stereotype Idref="ST00036" Name="record"/>
+									</Stereotypes>
+									<ModelChildren>
+										<Attribute Id="A00361" Name="email" Visibility="public" Type="String" Scope="instance"/>
+										<Attribute Id="A00362" Name="password" Visibility="public" Type="String" Scope="instance"/>
+									</ModelChildren>
+								</Class>
+								<Class Id="C00026" Name="RegisterRequest" Abstract="false" Visibility="public">
+									<Stereotypes>
+										<Stereotype Idref="ST00036" Name="record"/>
+									</Stereotypes>
+									<ModelChildren>
+										<Attribute Id="A00363" Name="fullName" Visibility="public" Type="String" Scope="instance"/>
+										<Attribute Id="A00364" Name="email" Visibility="public" Type="String" Scope="instance"/>
+										<Attribute Id="A00365" Name="phone" Visibility="public" Type="String" Scope="instance"/>
+										<Attribute Id="A00366" Name="password" Visibility="public" Type="String" Scope="instance"/>
+										<Attribute Id="A00367" Name="confirmPassword" Visibility="public" Type="String" Scope="instance"/>
+										<Attribute Id="A00368" Name="idNumber" Visibility="public" Type="String" Scope="instance"/>
+										<Attribute Id="A00369" Name="dateOfBirth" Visibility="public" Type="LocalDate" Scope="instance"/>
+										<Attribute Id="A00370" Name="gender" Visibility="public" Type="Gender" Scope="instance"/>
+										<Attribute Id="A00371" Name="address" Visibility="public" Type="String" Scope="instance"/>
+									</ModelChildren>
+								</Class>
+								<Class Id="C00027" Name="TokenRequest" Abstract="false" Visibility="public">
+									<Stereotypes>
+										<Stereotype Idref="ST00036" Name="record"/>
+									</Stereotypes>
+									<ModelChildren>
+										<Attribute Id="A00372" Name="token" Visibility="public" Type="String" Scope="instance"/>
+									</ModelChildren>
+								</Class>
+								<Class Id="C00028" Name="EmailRequest" Abstract="false" Visibility="public">
+									<Stereotypes>
+										<Stereotype Idref="ST00036" Name="record"/>
+									</Stereotypes>
+									<ModelChildren>
+										<Attribute Id="A00373" Name="email" Visibility="public" Type="String" Scope="instance"/>
+									</ModelChildren>
+								</Class>
+								<Class Id="C00029" Name="ResetPasswordRequest" Abstract="false" Visibility="public">
+									<Stereotypes>
+										<Stereotype Idref="ST00036" Name="record"/>
+									</Stereotypes>
+									<ModelChildren>
+										<Attribute Id="A00374" Name="token" Visibility="public" Type="String" Scope="instance"/>
+										<Attribute Id="A00375" Name="newPassword" Visibility="public" Type="String" Scope="instance"/>
+										<Attribute Id="A00376" Name="confirmPassword" Visibility="public" Type="String" Scope="instance"/>
+									</ModelChildren>
+								</Class>
+								<Class Id="C00030" Name="ChangePasswordRequest" Abstract="false" Visibility="public">
+									<Stereotypes>
+										<Stereotype Idref="ST00036" Name="record"/>
+									</Stereotypes>
+									<ModelChildren>
+										<Attribute Id="A00377" Name="currentPassword" Visibility="public" Type="String" Scope="instance"/>
+										<Attribute Id="A00378" Name="newPassword" Visibility="public" Type="String" Scope="instance"/>
+										<Attribute Id="A00379" Name="confirmPassword" Visibility="public" Type="String" Scope="instance"/>
+									</ModelChildren>
+								</Class>
+								<Class Id="C00031" Name="UserInfo" Abstract="false" Visibility="public">
+									<Stereotypes>
+										<Stereotype Idref="ST00036" Name="record"/>
+									</Stereotypes>
+									<ModelChildren>
+										<Attribute Id="A00380" Name="id" Visibility="public" Type="Long" Scope="instance"/>
+										<Attribute Id="A00381" Name="email" Visibility="public" Type="String" Scope="instance"/>
+										<Attribute Id="A00382" Name="fullName" Visibility="public" Type="String" Scope="instance"/>
+										<Attribute Id="A00383" Name="phone" Visibility="public" Type="String" Scope="instance"/>
+										<Attribute Id="A00384" Name="role" Visibility="public" Type="Role" Scope="instance"/>
+										<Attribute Id="A00385" Name="status" Visibility="public" Type="UserStatus" Scope="instance"/>
+										<Attribute Id="A00386" Name="customerId" Visibility="public" Type="Long" Scope="instance"/>
+										<Attribute Id="A00387" Name="customerCode" Visibility="public" Type="String" Scope="instance"/>
+									</ModelChildren>
+								</Class>
+								<Class Id="C00032" Name="AuthResponse" Abstract="false" Visibility="public">
+									<Stereotypes>
+										<Stereotype Idref="ST00036" Name="record"/>
+									</Stereotypes>
+									<ModelChildren>
+										<Attribute Id="A00388" Name="accessToken" Visibility="public" Type="String" Scope="instance"/>
+										<Attribute Id="A00389" Name="tokenType" Visibility="public" Type="String" Scope="instance"/>
+										<Attribute Id="A00390" Name="expiresIn" Visibility="public" Type="long" Scope="instance"/>
+									</ModelChildren>
+								</Class>
+								<Class Id="C00033" Name="ActionResponse" Abstract="false" Visibility="public">
+									<Stereotypes>
+										<Stereotype Idref="ST00036" Name="record"/>
+									</Stereotypes>
+									<ModelChildren>
+										<Attribute Id="A00391" Name="message" Visibility="public" Type="String" Scope="instance"/>
+										<Attribute Id="A00392" Name="devLink" Visibility="public" Type="String" Scope="instance"/>
+									</ModelChildren>
+								</Class>
+							</ModelChildren>
+						</Package>
+					</ModelChildren>
+				</Package>
+			</ModelChildren>
+		</Package>
+		<Package Id="P00158" Name="org.springframework.web.filter">
+			<ModelChildren>
+				<Class Id="C00023" Name="OncePerRequestFilter" Abstract="true" Visibility="public">
+					<ModelChildren>
+					</ModelChildren>
+				</Class>
+			</ModelChildren>
+		</Package>
+		<Package Id="P00159" Name="org.springframework.data.jpa.repository">
+			<ModelChildren>
+				<Class Id="C00024" Name="JpaRepository&lt;T, ID&gt;" Abstract="false" Visibility="public">
+					<Stereotypes>
+						<Stereotype Idref="ST00039" Name="Interface"/>
+					</Stereotypes>
+					<ModelChildren>
+						<Operation Id="O00393" Name="findById" Visibility="public" ReturnType="Optional&lt;T&gt;" Scope="instance" Abstract="true">
+							<ModelChildren>
+								<Parameter Id="PA00394" Name="id" Type="ID" Direction="in"/>
+							</ModelChildren>
+						</Operation>
+						<Operation Id="O00395" Name="save" Visibility="public" ReturnType="T" Scope="instance" Abstract="true">
+							<ModelChildren>
+								<Parameter Id="PA00396" Name="entity" Type="T" Direction="in"/>
+							</ModelChildren>
+						</Operation>
+					</ModelChildren>
+				</Class>
+			</ModelChildren>
+		</Package>
+		<NOTE Id="N00397" Name="" Documentation_plain="Phân quyền (JWT + @PreAuthorize)&#10;• Role: CUSTOMER, STAFF. JWT (HS256, 8 giờ) mang claim role -&gt; quyền ROLE_CUSTOMER / ROLE_STAFF.&#10;• JwtAuthenticationFilter chỉ nhận token của tài khoản ACTIVE, cấp sau lần đổi mật khẩu gần nhất.&#10;• SecurityConfig: /api/auth/** công khai; /api/** phải đăng nhập (401), sai vai trò -&gt; 403.&#10;• MeController: updateProfile, customerDashboard = CUSTOMER; updateStaffProfile, staffDashboard = STAFF.&#10;• CustomerController, SettingController (cả lớp): chỉ STAFF.&#10;• CurrentUser.checkOwnership: khách hàng xem dữ liệu người khác -&gt; 404.&#10;• Đăng nhập sai 5 lần -&gt; tạm khoá 15 phút (AppProperties.security)."/>
+		<NOTE Id="N00398" Name="" Documentation_plain="Tham số kiểu của JpaRepository&lt;T, ID&gt;:&#10;• UserRepository: T = User, ID = Long&#10;• CustomerRepository: T = Customer, ID = Long&#10;• VerificationTokenRepository: T = VerificationToken, ID = Long"/>
+		<NOTE Id="N00399" Name="" Documentation_plain="AuthDtos: các Java record lồng trong lớp final AuthDtos.&#10;Request được validate bằng @NotBlank, @Pattern, @AgeBetween, @RawString&#10;(mật khẩu không bị trim). AuthResponse trả về JWT + UserInfo."/>
+		<ModelRelationshipContainer Id="RC00400" Name="relationships">
+			<ModelChildren>
+				<ModelRelationshipContainer Id="RC00401" Name="Generalization">
+					<ModelChildren>
+						<Generalization Id="R00043" From="C00015" To="C00016"/>
+						<Generalization Id="R00044" From="C00015" To="C00017"/>
+						<Generalization Id="R00045" From="C00023" To="C00008"/>
+						<Generalization Id="R00046" From="C00024" To="C00012"/>
+						<Generalization Id="R00047" From="C00024" To="C00013"/>
+						<Generalization Id="R00048" From="C00024" To="C00014"/>
+					</ModelChildren>
+				</ModelRelationshipContainer>
+				<ModelRelationshipContainer Id="RC00402" Name="Association">
+					<ModelChildren>
+						<Association Id="R00049" Direction="From To" EndRelationshipFromMetaModelElement="C00017" EndRelationshipToMetaModelElement="C00016">
+							<FromEnd>
+								<AssociationEnd Id="AE00050" EndModelElement="C00017" Multiplicity="0..1" Navigable="Unspecified" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00017" Name="Customer"/></Type>
+								</AssociationEnd>
+							</FromEnd>
+							<ToEnd>
+								<AssociationEnd Id="AE00051" EndModelElement="C00016" Name="user" Multiplicity="1" Navigable="Navigable" AggregationKind="None" Visibility="private">
+									<Type><Class Idref="C00016" Name="User"/></Type>
+								</AssociationEnd>
+							</ToEnd>
+						</Association>
+						<Association Id="R00052" Direction="From To" EndRelationshipFromMetaModelElement="C00018" EndRelationshipToMetaModelElement="C00016">
+							<FromEnd>
+								<AssociationEnd Id="AE00053" EndModelElement="C00018" Multiplicity="*" Navigable="Unspecified" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00018" Name="VerificationToken"/></Type>
+								</AssociationEnd>
+							</FromEnd>
+							<ToEnd>
+								<AssociationEnd Id="AE00054" EndModelElement="C00016" Name="user" Multiplicity="1" Navigable="Navigable" AggregationKind="None" Visibility="private">
+									<Type><Class Idref="C00016" Name="User"/></Type>
+								</AssociationEnd>
+							</ToEnd>
+						</Association>
+						<Association Id="R00055" Direction="From To" EndRelationshipFromMetaModelElement="C00016" EndRelationshipToMetaModelElement="C00019">
+							<FromEnd>
+								<AssociationEnd Id="AE00056" EndModelElement="C00016" Multiplicity="Unspecified" Navigable="Unspecified" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00016" Name="User"/></Type>
+								</AssociationEnd>
+							</FromEnd>
+							<ToEnd>
+								<AssociationEnd Id="AE00057" EndModelElement="C00019" Multiplicity="1" Navigable="Navigable" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00019" Name="Role"/></Type>
+								</AssociationEnd>
+							</ToEnd>
+						</Association>
+						<Association Id="R00058" Direction="From To" EndRelationshipFromMetaModelElement="C00016" EndRelationshipToMetaModelElement="C00020">
+							<FromEnd>
+								<AssociationEnd Id="AE00059" EndModelElement="C00016" Multiplicity="Unspecified" Navigable="Unspecified" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00016" Name="User"/></Type>
+								</AssociationEnd>
+							</FromEnd>
+							<ToEnd>
+								<AssociationEnd Id="AE00060" EndModelElement="C00020" Multiplicity="1" Navigable="Navigable" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00020" Name="UserStatus"/></Type>
+								</AssociationEnd>
+							</ToEnd>
+						</Association>
+						<Association Id="R00061" Direction="From To" EndRelationshipFromMetaModelElement="C00017" EndRelationshipToMetaModelElement="C00022">
+							<FromEnd>
+								<AssociationEnd Id="AE00062" EndModelElement="C00017" Multiplicity="Unspecified" Navigable="Unspecified" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00017" Name="Customer"/></Type>
+								</AssociationEnd>
+							</FromEnd>
+							<ToEnd>
+								<AssociationEnd Id="AE00063" EndModelElement="C00022" Multiplicity="1" Navigable="Navigable" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00022" Name="Gender"/></Type>
+								</AssociationEnd>
+							</ToEnd>
+						</Association>
+						<Association Id="R00064" Direction="From To" EndRelationshipFromMetaModelElement="C00018" EndRelationshipToMetaModelElement="C00021">
+							<FromEnd>
+								<AssociationEnd Id="AE00065" EndModelElement="C00018" Multiplicity="Unspecified" Navigable="Unspecified" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00018" Name="VerificationToken"/></Type>
+								</AssociationEnd>
+							</FromEnd>
+							<ToEnd>
+								<AssociationEnd Id="AE00066" EndModelElement="C00021" Multiplicity="1" Navigable="Navigable" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00021" Name="TokenType"/></Type>
+								</AssociationEnd>
+							</ToEnd>
+						</Association>
+						<Association Id="R00067" Direction="From To" EndRelationshipFromMetaModelElement="C00011" EndRelationshipToMetaModelElement="C00019">
+							<FromEnd>
+								<AssociationEnd Id="AE00068" EndModelElement="C00011" Multiplicity="Unspecified" Navigable="Unspecified" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00011" Name="AppUserPrincipal"/></Type>
+								</AssociationEnd>
+							</FromEnd>
+							<ToEnd>
+								<AssociationEnd Id="AE00069" EndModelElement="C00019" Multiplicity="1" Navigable="Navigable" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00019" Name="Role"/></Type>
+								</AssociationEnd>
+							</ToEnd>
+						</Association>
+						<Association Id="R00070" Direction="From To" EndRelationshipFromMetaModelElement="C00001" EndRelationshipToMetaModelElement="C00005">
+							<FromEnd>
+								<AssociationEnd Id="AE00071" EndModelElement="C00001" Multiplicity="Unspecified" Navigable="Unspecified" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00001" Name="AuthController"/></Type>
+								</AssociationEnd>
+							</FromEnd>
+							<ToEnd>
+								<AssociationEnd Id="AE00072" EndModelElement="C00005" Multiplicity="Unspecified" Navigable="Navigable" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00005" Name="AuthService"/></Type>
+								</AssociationEnd>
+							</ToEnd>
+						</Association>
+						<Association Id="R00073" Direction="From To" EndRelationshipFromMetaModelElement="C00002" EndRelationshipToMetaModelElement="C00005">
+							<FromEnd>
+								<AssociationEnd Id="AE00074" EndModelElement="C00002" Multiplicity="Unspecified" Navigable="Unspecified" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00002" Name="MeController"/></Type>
+								</AssociationEnd>
+							</FromEnd>
+							<ToEnd>
+								<AssociationEnd Id="AE00075" EndModelElement="C00005" Multiplicity="Unspecified" Navigable="Navigable" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00005" Name="AuthService"/></Type>
+								</AssociationEnd>
+							</ToEnd>
+						</Association>
+						<Association Id="R00076" Direction="From To" EndRelationshipFromMetaModelElement="C00002" EndRelationshipToMetaModelElement="C00010">
+							<FromEnd>
+								<AssociationEnd Id="AE00077" EndModelElement="C00002" Multiplicity="Unspecified" Navigable="Unspecified" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00002" Name="MeController"/></Type>
+								</AssociationEnd>
+							</FromEnd>
+							<ToEnd>
+								<AssociationEnd Id="AE00078" EndModelElement="C00010" Multiplicity="Unspecified" Navigable="Navigable" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00010" Name="CurrentUser"/></Type>
+								</AssociationEnd>
+							</ToEnd>
+						</Association>
+						<Association Id="R00079" Direction="From To" EndRelationshipFromMetaModelElement="C00003" EndRelationshipToMetaModelElement="C00008">
+							<FromEnd>
+								<AssociationEnd Id="AE00080" EndModelElement="C00003" Multiplicity="Unspecified" Navigable="Unspecified" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00003" Name="SecurityConfig"/></Type>
+								</AssociationEnd>
+							</FromEnd>
+							<ToEnd>
+								<AssociationEnd Id="AE00081" EndModelElement="C00008" Multiplicity="Unspecified" Navigable="Navigable" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00008" Name="JwtAuthenticationFilter"/></Type>
+								</AssociationEnd>
+							</ToEnd>
+						</Association>
+						<Association Id="R00082" Direction="From To" EndRelationshipFromMetaModelElement="C00003" EndRelationshipToMetaModelElement="C00004">
+							<FromEnd>
+								<AssociationEnd Id="AE00083" EndModelElement="C00003" Multiplicity="Unspecified" Navigable="Unspecified" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00003" Name="SecurityConfig"/></Type>
+								</AssociationEnd>
+							</FromEnd>
+							<ToEnd>
+								<AssociationEnd Id="AE00084" EndModelElement="C00004" Multiplicity="Unspecified" Navigable="Navigable" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00004" Name="AppProperties"/></Type>
+								</AssociationEnd>
+							</ToEnd>
+						</Association>
+						<Association Id="R00085" Direction="From To" EndRelationshipFromMetaModelElement="C00005" EndRelationshipToMetaModelElement="C00012">
+							<FromEnd>
+								<AssociationEnd Id="AE00086" EndModelElement="C00005" Multiplicity="Unspecified" Navigable="Unspecified" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00005" Name="AuthService"/></Type>
+								</AssociationEnd>
+							</FromEnd>
+							<ToEnd>
+								<AssociationEnd Id="AE00087" EndModelElement="C00012" Multiplicity="Unspecified" Navigable="Navigable" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00012" Name="UserRepository"/></Type>
+								</AssociationEnd>
+							</ToEnd>
+						</Association>
+						<Association Id="R00088" Direction="From To" EndRelationshipFromMetaModelElement="C00005" EndRelationshipToMetaModelElement="C00013">
+							<FromEnd>
+								<AssociationEnd Id="AE00089" EndModelElement="C00005" Multiplicity="Unspecified" Navigable="Unspecified" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00005" Name="AuthService"/></Type>
+								</AssociationEnd>
+							</FromEnd>
+							<ToEnd>
+								<AssociationEnd Id="AE00090" EndModelElement="C00013" Multiplicity="Unspecified" Navigable="Navigable" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00013" Name="CustomerRepository"/></Type>
+								</AssociationEnd>
+							</ToEnd>
+						</Association>
+						<Association Id="R00091" Direction="From To" EndRelationshipFromMetaModelElement="C00005" EndRelationshipToMetaModelElement="C00014">
+							<FromEnd>
+								<AssociationEnd Id="AE00092" EndModelElement="C00005" Multiplicity="Unspecified" Navigable="Unspecified" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00005" Name="AuthService"/></Type>
+								</AssociationEnd>
+							</FromEnd>
+							<ToEnd>
+								<AssociationEnd Id="AE00093" EndModelElement="C00014" Multiplicity="Unspecified" Navigable="Navigable" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00014" Name="VerificationTokenRepository"/></Type>
+								</AssociationEnd>
+							</ToEnd>
+						</Association>
+						<Association Id="R00094" Direction="From To" EndRelationshipFromMetaModelElement="C00005" EndRelationshipToMetaModelElement="C00009">
+							<FromEnd>
+								<AssociationEnd Id="AE00095" EndModelElement="C00005" Multiplicity="Unspecified" Navigable="Unspecified" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00005" Name="AuthService"/></Type>
+								</AssociationEnd>
+							</FromEnd>
+							<ToEnd>
+								<AssociationEnd Id="AE00096" EndModelElement="C00009" Multiplicity="Unspecified" Navigable="Navigable" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00009" Name="JwtService"/></Type>
+								</AssociationEnd>
+							</ToEnd>
+						</Association>
+						<Association Id="R00097" Direction="From To" EndRelationshipFromMetaModelElement="C00005" EndRelationshipToMetaModelElement="C00006">
+							<FromEnd>
+								<AssociationEnd Id="AE00098" EndModelElement="C00005" Multiplicity="Unspecified" Navigable="Unspecified" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00005" Name="AuthService"/></Type>
+								</AssociationEnd>
+							</FromEnd>
+							<ToEnd>
+								<AssociationEnd Id="AE00099" EndModelElement="C00006" Multiplicity="Unspecified" Navigable="Navigable" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00006" Name="MailService"/></Type>
+								</AssociationEnd>
+							</ToEnd>
+						</Association>
+						<Association Id="R00100" Direction="From To" EndRelationshipFromMetaModelElement="C00005" EndRelationshipToMetaModelElement="C00007">
+							<FromEnd>
+								<AssociationEnd Id="AE00101" EndModelElement="C00005" Multiplicity="Unspecified" Navigable="Unspecified" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00005" Name="AuthService"/></Type>
+								</AssociationEnd>
+							</FromEnd>
+							<ToEnd>
+								<AssociationEnd Id="AE00102" EndModelElement="C00007" Multiplicity="Unspecified" Navigable="Navigable" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00007" Name="SettingService"/></Type>
+								</AssociationEnd>
+							</ToEnd>
+						</Association>
+						<Association Id="R00103" Direction="From To" EndRelationshipFromMetaModelElement="C00005" EndRelationshipToMetaModelElement="C00004">
+							<FromEnd>
+								<AssociationEnd Id="AE00104" EndModelElement="C00005" Multiplicity="Unspecified" Navigable="Unspecified" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00005" Name="AuthService"/></Type>
+								</AssociationEnd>
+							</FromEnd>
+							<ToEnd>
+								<AssociationEnd Id="AE00105" EndModelElement="C00004" Multiplicity="Unspecified" Navigable="Navigable" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00004" Name="AppProperties"/></Type>
+								</AssociationEnd>
+							</ToEnd>
+						</Association>
+						<Association Id="R00106" Direction="From To" EndRelationshipFromMetaModelElement="C00006" EndRelationshipToMetaModelElement="C00004">
+							<FromEnd>
+								<AssociationEnd Id="AE00107" EndModelElement="C00006" Multiplicity="Unspecified" Navigable="Unspecified" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00006" Name="MailService"/></Type>
+								</AssociationEnd>
+							</FromEnd>
+							<ToEnd>
+								<AssociationEnd Id="AE00108" EndModelElement="C00004" Multiplicity="Unspecified" Navigable="Navigable" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00004" Name="AppProperties"/></Type>
+								</AssociationEnd>
+							</ToEnd>
+						</Association>
+						<Association Id="R00109" Direction="From To" EndRelationshipFromMetaModelElement="C00008" EndRelationshipToMetaModelElement="C00009">
+							<FromEnd>
+								<AssociationEnd Id="AE00110" EndModelElement="C00008" Multiplicity="Unspecified" Navigable="Unspecified" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00008" Name="JwtAuthenticationFilter"/></Type>
+								</AssociationEnd>
+							</FromEnd>
+							<ToEnd>
+								<AssociationEnd Id="AE00111" EndModelElement="C00009" Multiplicity="Unspecified" Navigable="Navigable" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00009" Name="JwtService"/></Type>
+								</AssociationEnd>
+							</ToEnd>
+						</Association>
+						<Association Id="R00112" Direction="From To" EndRelationshipFromMetaModelElement="C00008" EndRelationshipToMetaModelElement="C00012">
+							<FromEnd>
+								<AssociationEnd Id="AE00113" EndModelElement="C00008" Multiplicity="Unspecified" Navigable="Unspecified" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00008" Name="JwtAuthenticationFilter"/></Type>
+								</AssociationEnd>
+							</FromEnd>
+							<ToEnd>
+								<AssociationEnd Id="AE00114" EndModelElement="C00012" Multiplicity="Unspecified" Navigable="Navigable" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00012" Name="UserRepository"/></Type>
+								</AssociationEnd>
+							</ToEnd>
+						</Association>
+						<Association Id="R00115" Direction="From To" EndRelationshipFromMetaModelElement="C00008" EndRelationshipToMetaModelElement="C00013">
+							<FromEnd>
+								<AssociationEnd Id="AE00116" EndModelElement="C00008" Multiplicity="Unspecified" Navigable="Unspecified" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00008" Name="JwtAuthenticationFilter"/></Type>
+								</AssociationEnd>
+							</FromEnd>
+							<ToEnd>
+								<AssociationEnd Id="AE00117" EndModelElement="C00013" Multiplicity="Unspecified" Navigable="Navigable" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00013" Name="CustomerRepository"/></Type>
+								</AssociationEnd>
+							</ToEnd>
+						</Association>
+						<Association Id="R00127" Direction="From To" EndRelationshipFromMetaModelElement="C00032" EndRelationshipToMetaModelElement="C00031">
+							<FromEnd>
+								<AssociationEnd Id="AE00128" EndModelElement="C00032" Multiplicity="Unspecified" Navigable="Unspecified" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00032" Name="AuthResponse"/></Type>
+								</AssociationEnd>
+							</FromEnd>
+							<ToEnd>
+								<AssociationEnd Id="AE00129" EndModelElement="C00031" Name="user" Multiplicity="1" Navigable="Navigable" AggregationKind="None" Visibility="private">
+									<Type><Class Idref="C00031" Name="UserInfo"/></Type>
+								</AssociationEnd>
+							</ToEnd>
+						</Association>
+						<Association Id="R00130" Direction="From To" EndRelationshipFromMetaModelElement="C00031" EndRelationshipToMetaModelElement="C00019">
+							<FromEnd>
+								<AssociationEnd Id="AE00131" EndModelElement="C00031" Multiplicity="Unspecified" Navigable="Unspecified" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00031" Name="UserInfo"/></Type>
+								</AssociationEnd>
+							</FromEnd>
+							<ToEnd>
+								<AssociationEnd Id="AE00132" EndModelElement="C00019" Multiplicity="1" Navigable="Navigable" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00019" Name="Role"/></Type>
+								</AssociationEnd>
+							</ToEnd>
+						</Association>
+						<Association Id="R00133" Direction="From To" EndRelationshipFromMetaModelElement="C00031" EndRelationshipToMetaModelElement="C00020">
+							<FromEnd>
+								<AssociationEnd Id="AE00134" EndModelElement="C00031" Multiplicity="Unspecified" Navigable="Unspecified" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00031" Name="UserInfo"/></Type>
+								</AssociationEnd>
+							</FromEnd>
+							<ToEnd>
+								<AssociationEnd Id="AE00135" EndModelElement="C00020" Multiplicity="1" Navigable="Navigable" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00020" Name="UserStatus"/></Type>
+								</AssociationEnd>
+							</ToEnd>
+						</Association>
+						<Association Id="R00136" Direction="From To" EndRelationshipFromMetaModelElement="C00026" EndRelationshipToMetaModelElement="C00022">
+							<FromEnd>
+								<AssociationEnd Id="AE00137" EndModelElement="C00026" Multiplicity="Unspecified" Navigable="Unspecified" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00026" Name="RegisterRequest"/></Type>
+								</AssociationEnd>
+							</FromEnd>
+							<ToEnd>
+								<AssociationEnd Id="AE00138" EndModelElement="C00022" Multiplicity="1" Navigable="Navigable" AggregationKind="None" Visibility="Unspecified">
+									<Type><Class Idref="C00022" Name="Gender"/></Type>
+								</AssociationEnd>
+							</ToEnd>
+						</Association>
+					</ModelChildren>
+				</ModelRelationshipContainer>
+				<ModelRelationshipContainer Id="RC00403" Name="Dependency">
+					<ModelChildren>
+						<Dependency Id="R00118" From="C00010" To="C00011">
+							<Stereotypes>
+								<Stereotype Idref="ST00119" Name="use"/>
+							</Stereotypes>
+						</Dependency>
+						<Dependency Id="R00120" From="C00008" To="C00011">
+							<Stereotypes>
+								<Stereotype Idref="ST00121" Name="create"/>
+							</Stereotypes>
+						</Dependency>
+						<Dependency Id="R00122" From="C00009" To="C00004">
+							<Stereotypes>
+								<Stereotype Idref="ST00119" Name="use"/>
+							</Stereotypes>
+						</Dependency>
+						<Dependency Id="R00123" From="C00009" To="C00016">
+							<Stereotypes>
+								<Stereotype Idref="ST00119" Name="use"/>
+							</Stereotypes>
+						</Dependency>
+						<Dependency Id="R00124" From="C00005" To="C00016">
+							<Stereotypes>
+								<Stereotype Idref="ST00121" Name="create"/>
+							</Stereotypes>
+						</Dependency>
+						<Dependency Id="R00125" From="C00005" To="C00017">
+							<Stereotypes>
+								<Stereotype Idref="ST00121" Name="create"/>
+							</Stereotypes>
+						</Dependency>
+						<Dependency Id="R00126" From="C00005" To="C00018">
+							<Stereotypes>
+								<Stereotype Idref="ST00121" Name="create"/>
+							</Stereotypes>
+						</Dependency>
+						<Dependency Id="R00139" From="C00001" To="C00025">
+							<Stereotypes>
+								<Stereotype Idref="ST00119" Name="use"/>
+							</Stereotypes>
+						</Dependency>
+						<Dependency Id="R00140" From="C00001" To="C00026">
+							<Stereotypes>
+								<Stereotype Idref="ST00119" Name="use"/>
+							</Stereotypes>
+						</Dependency>
+						<Dependency Id="R00141" From="C00001" To="C00027">
+							<Stereotypes>
+								<Stereotype Idref="ST00119" Name="use"/>
+							</Stereotypes>
+						</Dependency>
+						<Dependency Id="R00142" From="C00001" To="C00028">
+							<Stereotypes>
+								<Stereotype Idref="ST00119" Name="use"/>
+							</Stereotypes>
+						</Dependency>
+						<Dependency Id="R00143" From="C00001" To="C00029">
+							<Stereotypes>
+								<Stereotype Idref="ST00119" Name="use"/>
+							</Stereotypes>
+						</Dependency>
+						<Dependency Id="R00144" From="C00002" To="C00030">
+							<Stereotypes>
+								<Stereotype Idref="ST00119" Name="use"/>
+							</Stereotypes>
+						</Dependency>
+						<Dependency Id="R00145" From="C00001" To="C00032">
+							<Stereotypes>
+								<Stereotype Idref="ST00119" Name="use"/>
+							</Stereotypes>
+						</Dependency>
+						<Dependency Id="R00146" From="C00002" To="C00032">
+							<Stereotypes>
+								<Stereotype Idref="ST00119" Name="use"/>
+							</Stereotypes>
+						</Dependency>
+						<Dependency Id="R00147" From="C00001" To="C00033">
+							<Stereotypes>
+								<Stereotype Idref="ST00119" Name="use"/>
+							</Stereotypes>
+						</Dependency>
+					</ModelChildren>
+				</ModelRelationshipContainer>
+			</ModelChildren>
+		</ModelRelationshipContainer>
+	</Models>
+	<Diagrams>
+		<ClassDiagram Id="D00428" Name="Class Diagram - Phan 1 Vai tro &amp; phan quyen" ConnectorStyle="0">
+			<Shapes>
+			<Package Id="S00429" Model="P00149" MetaModelElement="P00149" Name="controller" X="40" Y="40" Width="878" Height="270" RequestResetCaption="true" Background="rgb(255, 255, 255)">
+				<FillColor Color="rgb(250, 250, 250)" Style="1" Transparency="0" Type="1"/>
+				<DiagramElementChildren>
+					<Class Id="S00404" Model="C00001" MetaModelElement="C00001" Name="AuthController" X="60" Y="90" Width="367" Height="155" RequestResetCaption="true" Background="rgb(224, 242, 254)">
+						<FillColor Color="rgb(224, 242, 254)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+					<Class Id="S00405" Model="C00002" MetaModelElement="C00002" Name="MeController" X="470" Y="90" Width="428" Height="200" RequestResetCaption="true" Background="rgb(224, 242, 254)">
+						<FillColor Color="rgb(224, 242, 254)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+				</DiagramElementChildren>
+			</Package>
+			<Package Id="S00430" Model="P00153" MetaModelElement="P00153" Name="config" X="980" Y="40" Width="892" Height="240" RequestResetCaption="true" Background="rgb(255, 255, 255)">
+				<FillColor Color="rgb(250, 250, 250)" Style="1" Transparency="0" Type="1"/>
+				<DiagramElementChildren>
+					<Class Id="S00406" Model="C00003" MetaModelElement="C00003" Name="SecurityConfig" X="1000" Y="90" Width="675" Height="170" RequestResetCaption="true" Background="rgb(254, 243, 199)">
+						<FillColor Color="rgb(254, 243, 199)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+					<Class Id="S00407" Model="C00004" MetaModelElement="C00004" Name="AppProperties" X="1720" Y="90" Width="132" Height="141" RequestResetCaption="true" Background="rgb(254, 243, 199)">
+						<FillColor Color="rgb(254, 243, 199)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+				</DiagramElementChildren>
+			</Package>
+			<Package Id="S00431" Model="P00150" MetaModelElement="P00150" Name="service" X="40" Y="350" Width="859" Height="465" RequestResetCaption="true" Background="rgb(255, 255, 255)">
+				<FillColor Color="rgb(250, 250, 250)" Style="1" Transparency="0" Type="1"/>
+				<DiagramElementChildren>
+					<Class Id="S00408" Model="C00005" MetaModelElement="C00005" Name="AuthService" X="60" Y="400" Width="423" Height="395" RequestResetCaption="true" Background="rgb(220, 252, 231)">
+						<FillColor Color="rgb(220, 252, 231)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+					<Class Id="S00409" Model="C00006" MetaModelElement="C00006" Name="MailService" X="540" Y="400" Width="339" Height="110" RequestResetCaption="true" Background="rgb(220, 252, 231)">
+						<FillColor Color="rgb(220, 252, 231)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+					<Class Id="S00410" Model="C00007" MetaModelElement="C00007" Name="SettingService" X="540" Y="560" Width="280" Height="95" RequestResetCaption="true" Background="rgb(220, 252, 231)">
+						<FillColor Color="rgb(220, 252, 231)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+				</DiagramElementChildren>
+			</Package>
+			<Package Id="S00432" Model="P00152" MetaModelElement="P00152" Name="security" X="940" Y="350" Width="1013" Height="410" RequestResetCaption="true" Background="rgb(255, 255, 255)">
+				<FillColor Color="rgb(250, 250, 250)" Style="1" Transparency="0" Type="1"/>
+				<DiagramElementChildren>
+					<Class Id="S00411" Model="C00010" MetaModelElement="C00010" Name="CurrentUser" X="960" Y="400" Width="300" Height="96" RequestResetCaption="true" Background="rgb(255, 228, 230)">
+						<FillColor Color="rgb(255, 228, 230)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+					<Class Id="S00412" Model="C00008" MetaModelElement="C00008" Name="JwtAuthenticationFilter" X="1320" Y="400" Width="613" Height="125" RequestResetCaption="true" Background="rgb(255, 228, 230)">
+						<FillColor Color="rgb(255, 228, 230)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+					<Class Id="S00413" Model="C00011" MetaModelElement="C00011" Name="AppUserPrincipal" X="960" Y="560" Width="322" Height="170" RequestResetCaption="true" Background="rgb(255, 228, 230)">
+						<FillColor Color="rgb(255, 228, 230)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+					<Class Id="S00414" Model="C00009" MetaModelElement="C00009" Name="JwtService" X="1500" Y="600" Width="204" Height="140" RequestResetCaption="true" Background="rgb(255, 228, 230)">
+						<FillColor Color="rgb(255, 228, 230)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+				</DiagramElementChildren>
+			</Package>
+			<Package Id="S00433" Model="P00158" MetaModelElement="P00158" Name="org.springframework.web.filter" X="1980" Y="370" Width="202" Height="108" RequestResetCaption="true" Background="rgb(255, 255, 255)">
+				<FillColor Color="rgb(250, 250, 250)" Style="1" Transparency="0" Type="1"/>
+				<DiagramElementChildren>
+					<Class Id="S00415" Model="C00023" MetaModelElement="C00023" Name="OncePerRequestFilter" X="2000" Y="420" Width="162" Height="38" RequestResetCaption="true" Background="rgb(241, 245, 249)">
+						<FillColor Color="rgb(241, 245, 249)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+				</DiagramElementChildren>
+			</Package>
+			<Package Id="S00434" Model="P00159" MetaModelElement="P00159" Name="org.springframework.data.jpa.repository" X="540" Y="1060" Width="233" Height="151" RequestResetCaption="true" Background="rgb(255, 255, 255)">
+				<FillColor Color="rgb(250, 250, 250)" Style="1" Transparency="0" Type="1"/>
+				<DiagramElementChildren>
+					<Class Id="S00416" Model="C00024" MetaModelElement="C00024" Name="JpaRepository&lt;T, ID&gt;" X="560" Y="1110" Width="193" Height="81" RequestResetCaption="true" Background="rgb(241, 245, 249)">
+						<FillColor Color="rgb(241, 245, 249)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+				</DiagramElementChildren>
+			</Package>
+			<Package Id="S00435" Model="P00151" MetaModelElement="P00151" Name="repository" X="40" Y="850" Width="1677" Height="211" RequestResetCaption="true" Background="rgb(255, 255, 255)">
+				<FillColor Color="rgb(250, 250, 250)" Style="1" Transparency="0" Type="1"/>
+				<DiagramElementChildren>
+					<Class Id="S00417" Model="C00014" MetaModelElement="C00014" Name="VerificationTokenRepository" X="60" Y="900" Width="540" Height="96" RequestResetCaption="true" Background="rgb(243, 232, 255)">
+						<FillColor Color="rgb(243, 232, 255)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+					<Class Id="S00418" Model="C00012" MetaModelElement="C00012" Name="UserRepository" X="660" Y="900" Width="400" Height="141" RequestResetCaption="true" Background="rgb(243, 232, 255)">
+						<FillColor Color="rgb(243, 232, 255)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+					<Class Id="S00419" Model="C00013" MetaModelElement="C00013" Name="CustomerRepository" X="1140" Y="900" Width="557" Height="111" RequestResetCaption="true" Background="rgb(243, 232, 255)">
+						<FillColor Color="rgb(243, 232, 255)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+				</DiagramElementChildren>
+			</Package>
+			<Package Id="S00436" Model="P00154" MetaModelElement="P00154" Name="domain" X="80" Y="1250" Width="878" Height="436" RequestResetCaption="true" Background="rgb(255, 255, 255)">
+				<FillColor Color="rgb(250, 250, 250)" Style="1" Transparency="0" Type="1"/>
+				<DiagramElementChildren>
+					<Class Id="S00420" Model="C00015" MetaModelElement="C00015" Name="BaseEntity" X="390" Y="1300" Width="160" Height="125" RequestResetCaption="true" Background="rgb(255, 237, 213)">
+						<FillColor Color="rgb(255, 237, 213)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+					<Class Id="S00421" Model="C00017" MetaModelElement="C00017" Name="Customer" X="100" Y="1480" Width="165" Height="125" RequestResetCaption="true" Background="rgb(255, 237, 213)">
+						<FillColor Color="rgb(255, 237, 213)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+					<Class Id="S00422" Model="C00016" MetaModelElement="C00016" Name="User" X="380" Y="1480" Width="204" Height="186" RequestResetCaption="true" Background="rgb(255, 237, 213)">
+						<FillColor Color="rgb(255, 237, 213)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+					<Class Id="S00423" Model="C00018" MetaModelElement="C00018" Name="VerificationToken" X="700" Y="1480" Width="238" Height="155" RequestResetCaption="true" Background="rgb(255, 237, 213)">
+						<FillColor Color="rgb(255, 237, 213)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+				</DiagramElementChildren>
+			</Package>
+			<Package Id="S00437" Model="P00155" MetaModelElement="P00155" Name="enums" X="108" Y="1720" Width="782" Height="158" RequestResetCaption="true" Background="rgb(255, 255, 255)">
+				<FillColor Color="rgb(250, 250, 250)" Style="1" Transparency="0" Type="1"/>
+				<DiagramElementChildren>
+					<Class Id="S00424" Model="C00022" MetaModelElement="C00022" Name="Gender" X="128" Y="1770" Width="110" Height="88" RequestResetCaption="true" Background="rgb(254, 249, 195)">
+						<FillColor Color="rgb(254, 249, 195)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+					<Class Id="S00425" Model="C00019" MetaModelElement="C00019" Name="Role" X="330" Y="1770" Width="110" Height="73" RequestResetCaption="true" Background="rgb(254, 249, 195)">
+						<FillColor Color="rgb(254, 249, 195)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+					<Class Id="S00426" Model="C00020" MetaModelElement="C00020" Name="UserStatus" X="470" Y="1770" Width="110" Height="88" RequestResetCaption="true" Background="rgb(254, 249, 195)">
+						<FillColor Color="rgb(254, 249, 195)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+					<Class Id="S00427" Model="C00021" MetaModelElement="C00021" Name="TokenType" X="760" Y="1770" Width="110" Height="73" RequestResetCaption="true" Background="rgb(254, 249, 195)">
+						<FillColor Color="rgb(254, 249, 195)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+				</DiagramElementChildren>
+			</Package>
+			<NOTE Id="S00438" Model="N00397" MetaModelElement="N00397" X="1170" Y="1300" Width="620" Height="200" Background="rgb(255, 253, 231)">
+				<FillColor Color="rgb(255, 253, 231)" Style="1" Transparency="0" Type="1"/>
+			</NOTE>
+			<NOTE Id="S00439" Model="N00398" MetaModelElement="N00398" X="60" Y="1110" Width="420" Height="80" Background="rgb(255, 253, 231)">
+				<FillColor Color="rgb(255, 253, 231)" Style="1" Transparency="0" Type="1"/>
+			</NOTE>
+			</Shapes>
+			<Connectors>
+				<Generalization Id="CN00440" Model="R00043" MetaModelElement="R00043" From="S00420" To="S00422" RequestResetCaption="true">
+					<Points>
+						<Point X="470.0" Y="1425.0"/>
+						<Point X="470.0" Y="1480.0"/>
+					</Points>
+				</Generalization>
+				<Generalization Id="CN00441" Model="R00044" MetaModelElement="R00044" From="S00420" To="S00421" RequestResetCaption="true">
+					<Points>
+						<Point X="390.0" Y="1362.0"/>
+						<Point X="182.0" Y="1362.0"/>
+						<Point X="182.0" Y="1480.0"/>
+					</Points>
+				</Generalization>
+				<Generalization Id="CN00442" Model="R00045" MetaModelElement="R00045" From="S00415" To="S00412" RequestResetCaption="true">
+					<Points>
+						<Point X="2000.0" Y="445.0"/>
+						<Point X="1933.0" Y="445.0"/>
+					</Points>
+				</Generalization>
+				<Generalization Id="CN00443" Model="R00046" MetaModelElement="R00046" From="S00416" To="S00418" RequestResetCaption="true">
+					<Points>
+						<Point X="656.0" Y="1110.0"/>
+						<Point X="656.0" Y="1075.0"/>
+						<Point X="860.0" Y="1075.0"/>
+						<Point X="860.0" Y="1041.0"/>
+					</Points>
+				</Generalization>
+				<Generalization Id="CN00444" Model="R00047" MetaModelElement="R00047" From="S00416" To="S00419" RequestResetCaption="true">
+					<Points>
+						<Point X="656.0" Y="1110.0"/>
+						<Point X="656.0" Y="1075.0"/>
+						<Point X="1418.0" Y="1075.0"/>
+						<Point X="1418.0" Y="1011.0"/>
+					</Points>
+				</Generalization>
+				<Generalization Id="CN00445" Model="R00048" MetaModelElement="R00048" From="S00416" To="S00417" RequestResetCaption="true">
+					<Points>
+						<Point X="656.0" Y="1110.0"/>
+						<Point X="656.0" Y="1075.0"/>
+						<Point X="330.0" Y="1075.0"/>
+						<Point X="330.0" Y="996.0"/>
+					</Points>
+				</Generalization>
+				<Association Id="CN00446" Model="R00049" MetaModelElement="R00049" From="S00421" To="S00422" RequestResetCaption="true">
+					<Points>
+						<Point X="265.0" Y="1540.0"/>
+						<Point X="380.0" Y="1540.0"/>
+					</Points>
+				</Association>
+				<Association Id="CN00447" Model="R00052" MetaModelElement="R00052" From="S00423" To="S00422" RequestResetCaption="true">
+					<Points>
+						<Point X="700.0" Y="1540.0"/>
+						<Point X="584.0" Y="1540.0"/>
+					</Points>
+				</Association>
+				<Association Id="CN00448" Model="R00055" MetaModelElement="R00055" From="S00422" To="S00425" RequestResetCaption="true">
+					<Points>
+						<Point X="385.0" Y="1666.0"/>
+						<Point X="385.0" Y="1770.0"/>
+					</Points>
+				</Association>
+				<Association Id="CN00449" Model="R00058" MetaModelElement="R00058" From="S00422" To="S00426" RequestResetCaption="true">
+					<Points>
+						<Point X="525.0" Y="1666.0"/>
+						<Point X="525.0" Y="1770.0"/>
+					</Points>
+				</Association>
+				<Association Id="CN00450" Model="R00061" MetaModelElement="R00061" From="S00421" To="S00424" RequestResetCaption="true">
+					<Points>
+						<Point X="182.0" Y="1605.0"/>
+						<Point X="182.0" Y="1770.0"/>
+					</Points>
+				</Association>
+				<Association Id="CN00451" Model="R00064" MetaModelElement="R00064" From="S00423" To="S00427" RequestResetCaption="true">
+					<Points>
+						<Point X="815.0" Y="1635.0"/>
+						<Point X="815.0" Y="1770.0"/>
+					</Points>
+				</Association>
+				<Association Id="CN00452" Model="R00067" MetaModelElement="R00067" From="S00413" To="S00425" RequestResetCaption="true">
+					<Points>
+						<Point X="1100.0" Y="730.0"/>
+						<Point X="1100.0" Y="1880.0"/>
+						<Point X="385.0" Y="1880.0"/>
+						<Point X="385.0" Y="1843.0"/>
+					</Points>
+				</Association>
+				<Association Id="CN00453" Model="R00070" MetaModelElement="R00070" From="S00404" To="S00408" RequestResetCaption="true">
+					<Points>
+						<Point X="240.0" Y="245.0"/>
+						<Point X="240.0" Y="400.0"/>
+					</Points>
+				</Association>
+				<Association Id="CN00454" Model="R00073" MetaModelElement="R00073" From="S00405" To="S00408" RequestResetCaption="true">
+					<Points>
+						<Point X="582.8" Y="290.0"/>
+						<Point X="471.4" Y="400.0"/>
+					</Points>
+				</Association>
+				<Association Id="CN00455" Model="R00076" MetaModelElement="R00076" From="S00405" To="S00411" RequestResetCaption="true">
+					<Points>
+						<Point X="849.1" Y="290.0"/>
+						<Point X="1030.7" Y="400.0"/>
+					</Points>
+				</Association>
+				<Association Id="CN00456" Model="R00079" MetaModelElement="R00079" From="S00406" To="S00412" RequestResetCaption="true">
+					<Points>
+						<Point X="1500.0" Y="260.0"/>
+						<Point X="1500.0" Y="400.0"/>
+					</Points>
+				</Association>
+				<Association Id="CN00457" Model="R00082" MetaModelElement="R00082" From="S00406" To="S00407" RequestResetCaption="true">
+					<Points>
+						<Point X="1675.0" Y="164.1"/>
+						<Point X="1720.0" Y="162.6"/>
+					</Points>
+				</Association>
+				<Association Id="CN00458" Model="R00085" MetaModelElement="R00085" From="S00408" To="S00418" RequestResetCaption="true">
+					<Points>
+						<Point X="430.0" Y="795.0"/>
+						<Point X="430.0" Y="850.0"/>
+						<Point X="760.0" Y="850.0"/>
+						<Point X="760.0" Y="900.0"/>
+					</Points>
+				</Association>
+				<Association Id="CN00459" Model="R00088" MetaModelElement="R00088" From="S00408" To="S00419" RequestResetCaption="true">
+					<Points>
+						<Point X="465.0" Y="795.0"/>
+						<Point X="465.0" Y="838.0"/>
+						<Point X="1250.0" Y="838.0"/>
+						<Point X="1250.0" Y="900.0"/>
+					</Points>
+				</Association>
+				<Association Id="CN00460" Model="R00091" MetaModelElement="R00091" From="S00408" To="S00417" RequestResetCaption="true">
+					<Points>
+						<Point X="270.0" Y="795.0"/>
+						<Point X="270.0" Y="900.0"/>
+					</Points>
+				</Association>
+				<Association Id="CN00461" Model="R00094" MetaModelElement="R00094" From="S00408" To="S00414" RequestResetCaption="true">
+					<Points>
+						<Point X="483.0" Y="780.0"/>
+						<Point X="1602.0" Y="780.0"/>
+						<Point X="1602.0" Y="740.0"/>
+					</Points>
+				</Association>
+				<Association Id="CN00462" Model="R00097" MetaModelElement="R00097" From="S00408" To="S00409" RequestResetCaption="true">
+					<Points>
+						<Point X="483.0" Y="455.0"/>
+						<Point X="540.0" Y="455.0"/>
+					</Points>
+				</Association>
+				<Association Id="CN00463" Model="R00100" MetaModelElement="R00100" From="S00408" To="S00410" RequestResetCaption="true">
+					<Points>
+						<Point X="483.0" Y="607.0"/>
+						<Point X="540.0" Y="607.0"/>
+					</Points>
+				</Association>
+				<Association Id="CN00464" Model="R00109" MetaModelElement="R00109" From="S00412" To="S00414" RequestResetCaption="true">
+					<Points>
+						<Point X="1602.0" Y="525.0"/>
+						<Point X="1602.0" Y="600.0"/>
+					</Points>
+				</Association>
+				<Association Id="CN00465" Model="R00112" MetaModelElement="R00112" From="S00412" To="S00418" RequestResetCaption="true">
+					<Points>
+						<Point X="1330.0" Y="525.0"/>
+						<Point X="1330.0" Y="850.0"/>
+						<Point X="1000.0" Y="900.0"/>
+					</Points>
+				</Association>
+				<Association Id="CN00466" Model="R00115" MetaModelElement="R00115" From="S00412" To="S00419" RequestResetCaption="true">
+					<Points>
+						<Point X="1800.0" Y="525.0"/>
+						<Point X="1800.0" Y="955.0"/>
+						<Point X="1697.0" Y="955.0"/>
+					</Points>
+				</Association>
+				<Dependency Id="CN00467" Model="R00118" MetaModelElement="R00118" From="S00411" To="S00413" RequestResetCaption="true">
+					<Points>
+						<Point X="1110.0" Y="496.0"/>
+						<Point X="1110.0" Y="560.0"/>
+					</Points>
+				</Dependency>
+				<Dependency Id="CN00468" Model="R00120" MetaModelElement="R00120" From="S00412" To="S00413" RequestResetCaption="true">
+					<Points>
+						<Point X="1453.4" Y="525.0"/>
+						<Point X="1282.0" Y="586.9"/>
+					</Points>
+				</Dependency>
+			</Connectors>
+		</ClassDiagram>
+		<ClassDiagram Id="D00483" Name="Class Diagram - Phan 1 AuthDtos" ConnectorStyle="0">
+			<Shapes>
+			<Package Id="S00484" Model="P00149" MetaModelElement="P00149" Name="controller" X="40" Y="250" Width="468" Height="610" RequestResetCaption="true" Background="rgb(255, 255, 255)">
+				<FillColor Color="rgb(250, 250, 250)" Style="1" Transparency="0" Type="1"/>
+				<DiagramElementChildren>
+					<Class Id="S00469" Model="C00001" MetaModelElement="C00001" Name="AuthController" X="60" Y="300" Width="367" Height="155" RequestResetCaption="true" Background="rgb(224, 242, 254)">
+						<FillColor Color="rgb(224, 242, 254)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+					<Class Id="S00470" Model="C00002" MetaModelElement="C00002" Name="MeController" X="60" Y="640" Width="428" Height="200" RequestResetCaption="true" Background="rgb(224, 242, 254)">
+						<FillColor Color="rgb(224, 242, 254)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+				</DiagramElementChildren>
+			</Package>
+			<Package Id="S00485" Model="P00157" MetaModelElement="P00157" Name="AuthDtos" X="600" Y="10" Width="417" Height="998" RequestResetCaption="true" Background="rgb(255, 255, 255)">
+				<FillColor Color="rgb(250, 250, 250)" Style="1" Transparency="0" Type="1"/>
+				<DiagramElementChildren>
+					<Class Id="S00471" Model="C00025" MetaModelElement="C00025" Name="LoginRequest" X="620" Y="60" Width="115" Height="81" RequestResetCaption="true" Background="rgb(207, 250, 254)">
+						<FillColor Color="rgb(207, 250, 254)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+					<Class Id="S00472" Model="C00026" MetaModelElement="C00026" Name="RegisterRequest" X="620" Y="161" Width="154" Height="186" RequestResetCaption="true" Background="rgb(207, 250, 254)">
+						<FillColor Color="rgb(207, 250, 254)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+					<Class Id="S00473" Model="C00027" MetaModelElement="C00027" Name="TokenRequest" X="620" Y="367" Width="110" Height="66" RequestResetCaption="true" Background="rgb(207, 250, 254)">
+						<FillColor Color="rgb(207, 250, 254)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+					<Class Id="S00474" Model="C00028" MetaModelElement="C00028" Name="EmailRequest" X="620" Y="453" Width="110" Height="66" RequestResetCaption="true" Background="rgb(207, 250, 254)">
+						<FillColor Color="rgb(207, 250, 254)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+					<Class Id="S00475" Model="C00029" MetaModelElement="C00029" Name="ResetPasswordRequest" X="620" Y="539" Width="162" Height="96" RequestResetCaption="true" Background="rgb(207, 250, 254)">
+						<FillColor Color="rgb(207, 250, 254)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+					<Class Id="S00476" Model="C00030" MetaModelElement="C00030" Name="ChangePasswordRequest" X="620" Y="655" Width="169" Height="96" RequestResetCaption="true" Background="rgb(207, 250, 254)">
+						<FillColor Color="rgb(207, 250, 254)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+					<Class Id="S00477" Model="C00032" MetaModelElement="C00032" Name="AuthResponse" X="620" Y="791" Width="132" Height="96" RequestResetCaption="true" Background="rgb(207, 250, 254)">
+						<FillColor Color="rgb(207, 250, 254)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+					<Class Id="S00478" Model="C00033" MetaModelElement="C00033" Name="ActionResponse" X="620" Y="907" Width="121" Height="81" RequestResetCaption="true" Background="rgb(207, 250, 254)">
+						<FillColor Color="rgb(207, 250, 254)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+					<Class Id="S00479" Model="C00031" MetaModelElement="C00031" Name="UserInfo" X="860" Y="760" Width="137" Height="171" RequestResetCaption="true" Background="rgb(207, 250, 254)">
+						<FillColor Color="rgb(207, 250, 254)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+				</DiagramElementChildren>
+			</Package>
+			<Package Id="S00486" Model="P00155" MetaModelElement="P00155" Name="enums" X="1060" Y="160" Width="150" Height="808" RequestResetCaption="true" Background="rgb(255, 255, 255)">
+				<FillColor Color="rgb(250, 250, 250)" Style="1" Transparency="0" Type="1"/>
+				<DiagramElementChildren>
+					<Class Id="S00480" Model="C00022" MetaModelElement="C00022" Name="Gender" X="1080" Y="210" Width="110" Height="88" RequestResetCaption="true" Background="rgb(254, 249, 195)">
+						<FillColor Color="rgb(254, 249, 195)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+					<Class Id="S00481" Model="C00019" MetaModelElement="C00019" Name="Role" X="1080" Y="760" Width="110" Height="73" RequestResetCaption="true" Background="rgb(254, 249, 195)">
+						<FillColor Color="rgb(254, 249, 195)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+					<Class Id="S00482" Model="C00020" MetaModelElement="C00020" Name="UserStatus" X="1080" Y="860" Width="110" Height="88" RequestResetCaption="true" Background="rgb(254, 249, 195)">
+						<FillColor Color="rgb(254, 249, 195)" Style="1" Transparency="0" Type="1"/>
+					</Class>
+				</DiagramElementChildren>
+			</Package>
+			<NOTE Id="S00487" Model="N00399" MetaModelElement="N00399" X="60" Y="40" Width="470" Height="80" Background="rgb(255, 253, 231)">
+				<FillColor Color="rgb(255, 253, 231)" Style="1" Transparency="0" Type="1"/>
+			</NOTE>
+			</Shapes>
+			<Connectors>
+				<Association Id="CN00488" Model="R00127" MetaModelElement="R00127" From="S00477" To="S00479" RequestResetCaption="true">
+					<Points>
+						<Point X="752.0" Y="839.0"/>
+						<Point X="860.0" Y="839.0"/>
+					</Points>
+				</Association>
+				<Association Id="CN00489" Model="R00130" MetaModelElement="R00130" From="S00479" To="S00481" RequestResetCaption="true">
+					<Points>
+						<Point X="997.0" Y="829.2"/>
+						<Point X="1080.0" Y="809.6"/>
+					</Points>
+				</Association>
+				<Association Id="CN00490" Model="R00133" MetaModelElement="R00133" From="S00479" To="S00482" RequestResetCaption="true">
+					<Points>
+						<Point X="997.0" Y="864.9"/>
+						<Point X="1080.0" Y="888.4"/>
+					</Points>
+				</Association>
+				<Association Id="CN00491" Model="R00136" MetaModelElement="R00136" From="S00472" To="S00480" RequestResetCaption="true">
+					<Points>
+						<Point X="774.0" Y="250.0"/>
+						<Point X="1080.0" Y="250.0"/>
+					</Points>
+				</Association>
+				<Dependency Id="CN00492" Model="R00139" MetaModelElement="R00139" From="S00469" To="S00471" RequestResetCaption="true">
+					<Points>
+						<Point X="364.9" Y="300.0"/>
+						<Point X="620.0" Y="137.2"/>
+					</Points>
+				</Dependency>
+				<Dependency Id="CN00493" Model="R00140" MetaModelElement="R00140" From="S00469" To="S00472" RequestResetCaption="true">
+					<Points>
+						<Point X="427.0" Y="327.5"/>
+						<Point X="620.0" Y="275.0"/>
+					</Points>
+				</Dependency>
+				<Dependency Id="CN00494" Model="R00141" MetaModelElement="R00141" From="S00469" To="S00473" RequestResetCaption="true">
+					<Points>
+						<Point X="427.0" Y="387.1"/>
+						<Point X="620.0" Y="397.1"/>
+					</Points>
+				</Dependency>
+				<Dependency Id="CN00495" Model="R00142" MetaModelElement="R00142" From="S00469" To="S00474" RequestResetCaption="true">
+					<Points>
+						<Point X="427.0" Y="423.6"/>
+						<Point X="620.0" Y="472.2"/>
+					</Points>
+				</Dependency>
+				<Dependency Id="CN00496" Model="R00143" MetaModelElement="R00143" From="S00469" To="S00475" RequestResetCaption="true">
+					<Points>
+						<Point X="412.7" Y="455.0"/>
+						<Point X="620.0" Y="549.9"/>
+					</Points>
+				</Dependency>
+				<Dependency Id="CN00497" Model="R00144" MetaModelElement="R00144" From="S00470" To="S00476" RequestResetCaption="true">
+					<Points>
+						<Point X="488.0" Y="721.6"/>
+						<Point X="620.0" Y="710.3"/>
+					</Points>
+				</Dependency>
+				<Dependency Id="CN00498" Model="R00145" MetaModelElement="R00145" From="S00469" To="S00477" RequestResetCaption="true">
+					<Points>
+						<Point X="420.0" Y="455.0"/>
+						<Point X="620.0" Y="820.0"/>
+					</Points>
+				</Dependency>
+				<Dependency Id="CN00499" Model="R00146" MetaModelElement="R00146" From="S00470" To="S00477" RequestResetCaption="true">
+					<Points>
+						<Point X="488.0" Y="791.4"/>
+						<Point X="620.0" Y="823.1"/>
+					</Points>
+				</Dependency>
+				<Dependency Id="CN00500" Model="R00147" MetaModelElement="R00147" From="S00469" To="S00478" RequestResetCaption="true">
+					<Points>
+						<Point X="400.0" Y="455.0"/>
+						<Point X="620.0" Y="940.0"/>
+					</Points>
+				</Dependency>
+			</Connectors>
+		</ClassDiagram>
+	</Diagrams>
+</Project>
