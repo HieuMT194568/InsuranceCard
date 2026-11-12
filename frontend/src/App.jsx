@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { DashboardLayout, GuestOnly, PublicLayout, RequireRole } from './components/layouts';
+import ChatWidget from './components/ChatWidget';
 
 /*
  * QUY ƯỚC (SRS v2 mục 3.3): file này do Hiếu giữ. Mỗi thành viên chỉ thêm import / route trong
@@ -102,37 +103,40 @@ const staffRoutes = (
 
 export default function App() {
   return (
-    <Routes>
-      <Route element={<PublicLayout />}>
-        <Route index element={<Home />} />
-        <Route element={<GuestOnly />}>
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
-          <Route path="forgot-password" element={<ForgotPassword />} />
+    <>
+      <Routes>
+        <Route element={<PublicLayout />}>
+          <Route index element={<Home />} />
+          <Route element={<GuestOnly />}>
+            <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
+            <Route path="forgot-password" element={<ForgotPassword />} />
+          </Route>
+          {publicRoutes}
         </Route>
-        {publicRoutes}
-      </Route>
 
-      <Route path="customer" element={<RequireRole role="CUSTOMER" />}>
-        <Route element={<DashboardLayout />}>
-          <Route index element={<Navigate to="dashboard" replace />} />
-          <Route path="dashboard" element={<CustomerDashboard />} />
-          {sharedRoutes}
+        <Route path="customer" element={<RequireRole role="CUSTOMER" />}>
+          <Route element={<DashboardLayout />}>
+            <Route index element={<Navigate to="dashboard" replace />} />
+            <Route path="dashboard" element={<CustomerDashboard />} />
+            {sharedRoutes}
+          </Route>
         </Route>
-      </Route>
 
-      <Route path="staff" element={<RequireRole roles={['STAFF', 'ADMIN']} />}>
-        <Route element={<DashboardLayout />}>
-          <Route index element={<Navigate to="dashboard" replace />} />
-          <Route path="dashboard" element={<StaffDashboard />} />
-          {staffRoutes}
-          {sharedRoutes}
+        <Route path="staff" element={<RequireRole roles={['STAFF', 'ADMIN']} />}>
+          <Route element={<DashboardLayout />}>
+            <Route index element={<Navigate to="dashboard" replace />} />
+            <Route path="dashboard" element={<StaffDashboard />} />
+            {staffRoutes}
+            {sharedRoutes}
+          </Route>
         </Route>
-      </Route>
 
-      <Route path="*" element={<PublicLayout />}>
-        <Route path="*" element={<NotFound />} />
-      </Route>
-    </Routes>
+        <Route path="*" element={<PublicLayout />}>
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
+      <ChatWidget />
+    </>
   );
 }
