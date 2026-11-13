@@ -43,6 +43,9 @@ spring:
       mail.smtp.starttls.enable: true
 
 app:
+  gemini:
+    api-key: ${GEMINI_API_KEY:}
+    model: ${GEMINI_MODEL:gemini-3.5-flash}
   timezone: Asia/Ho_Chi_Minh
   jwt:
     # Base64 của khoá >= 256 bit. Đổi khi triển khai thật (biến môi trường JWT_SECRET).
