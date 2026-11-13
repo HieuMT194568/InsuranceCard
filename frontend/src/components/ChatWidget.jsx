@@ -1,13 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import chatbotApi from '../api/chatbotApi';
 
-const QUICK_QUESTIONS = [
-  'Gói bảo hiểm xe máy có giá bao nhiêu?',
-  'Khai báo tai nạn thế nào?',
-  'Điều kiện để được bồi thường?',
-  'Gia hạn hợp đồng khi nào?',
-];
-
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
@@ -57,13 +50,14 @@ export default function ChatWidget() {
         source: res.source,
       };
       setMessages((prev) => [...prev, aiReply]);
-    } catch {
+    } catch (err) {
+      const errMsg = err.response?.data?.message || 'Rất tiếc, đã có lỗi kết nối đến trợ lý ảo. Vui lòng thử lại sau giây lát!';
       setMessages((prev) => [
         ...prev,
         {
           id: Date.now() + 1,
           sender: 'ai',
-          text: 'Rất tiếc, đã có lỗi kết nối đến trợ lý ảo. Vui lòng thử lại sau giây lát!',
+          text: errMsg,
           time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         },
       ]);
@@ -144,27 +138,6 @@ export default function ChatWidget() {
               </div>
             )}
             <div ref={messagesEndRef} />
-          </div>
-
-          {/* Gợi ý câu hỏi nhanh */}
-          <div className="px-2 py-1 border-top bg-light chat-quick-suggestions">
-            <small className="text-muted d-block mb-1" style={{ fontSize: '0.72rem' }}>
-              Gợi ý câu hỏi:
-            </small>
-            <div className="d-flex gap-1 overflow-auto pb-1" style={{ whiteSpace: 'nowrap' }}>
-              {QUICK_QUESTIONS.map((q, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  className="btn btn-outline-secondary btn-sm rounded-pill py-0 px-2"
-                  style={{ fontSize: '0.75rem' }}
-                  onClick={() => handleSend(q)}
-                  disabled={loading}
-                >
-                  {q}
-                </button>
-              ))}
-            </div>
           </div>
 
           {/* Ô nhập tin nhắn */}
